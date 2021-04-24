@@ -1,0 +1,38 @@
+# Euler Chat Bot
+Euler Tools
+:doctype: article
+:toc: right
+:copyright: © 2021
+
+:toc:
+
+{copyright} {author}
+
+This bot will start out with telegram, but may expand to allow for e-mail
+subscription requests for newsletters, price updates, and reports.
+
+## Proposed Commands
+
+### Live request triggers community
+
+* `/price` gets a pair price
+* `/pool` gets the pool information
+* `/scam` as reply to a message will check our database and search for the
+  message content, maybe is a fake contract.
+** It can take an option that the
+   report also bans the author from all channels with our bot. User will receive
+   a message in which they can open a support ticket to remove the ban.
+
+### Announcement and Subscript Functionality
+
+* `/subscribe` can suscribe to a pair and start receiving price notifications
+* `/alerts` can subscribe to a pair and receive alerts, like liquidity draining
+* `/remind` sends periodic messages to the channel
+* `/twitter` can subscribe to a twitter user and share his tweets (good to gain RT)
+
+## Development
+
+As we know what is needed to build the commands, we will write that in Postman
+so the platform team can get those connections done. Meaning, The API's will be
+developed to accommodate what is wanted here.
+
