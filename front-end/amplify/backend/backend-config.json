@@ -1,6 +1,6 @@
 {
   "auth": {
-    "botaec77105": {
+    "botd1f8d78c": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
