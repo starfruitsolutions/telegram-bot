@@ -33,6 +33,6 @@ subscription requests for newsletters, price updates, and reports.
 ## Development
 
 As we know what is needed to build the commands, we will write that in Postman
-so the platform team can get those connections done. Meaning, The API's will be
+so the platform team can get those connections done. Meaning, the API's will be
 developed to accommodate what is wanted here.
 
