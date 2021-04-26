@@ -5,6 +5,7 @@ import store from './store'
 import Amplify from 'aws-amplify';
 import '@aws-amplify/ui-vue';
 import aws_exports from './aws-exports';
+import router from './router'
 
 Amplify.configure(aws_exports);
 
@@ -13,5 +14,6 @@ Vue.config.productionTip = false
 
 new Vue({
   store,
-  render: h => h(App),
+  router,
+  render: h => h(App)
 }).$mount('#app')
