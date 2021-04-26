@@ -10,6 +10,11 @@
       "StackName": "amplify-bot-dev-143133",
       "StackId": "arn:aws:cloudformation:us-east-1:356783682912:stack/amplify-bot-dev-143133/a1364410-a6bd-11eb-952c-12d55a58e4d7",
       "AmplifyAppId": "d1rzgu477l60v0"
+    },
+    "categories": {
+      "auth": {
+        "botaec77105": {}
+      }
     }
   }
 }

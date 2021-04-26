@@ -1,1 +1,10 @@
-{}
+{
+  "auth": {
+    "botaec77105": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}
