@@ -72,5 +72,12 @@ ticket, you would have the following pattern:
 
 `git checkout -b BOT-3_description_here_if_you_want`
 
+include::./front-end/README.md[offset=+1]
 
+## Copyrights and Licenses
+
+This document is {copyright} {author}.
+
+Portions of this software is copyright and licensed as found in various LICENSE
+files.
 
