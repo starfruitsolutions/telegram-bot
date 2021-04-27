@@ -5,33 +5,21 @@
       color="primary"
       dark
     >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+      <a to="/" class="white--text d-flex align-center">
+        <h1 class="ml-2">
+          Euler.tools bots
+        </h1>
+      </a>
 
       <v-spacer></v-spacer>
-
-      <v-btn
-        to='Login'
-      >
-        Log In
-      </v-btn>
+      <div v-if="user">
+        {{ user.username }}
+        <v-btn
+          @click="signout"
+        >
+          Log Out
+        </v-btn>
+      </div>
     </v-app-bar>
 
     <v-main>
@@ -41,12 +29,32 @@
 </template>
 
 <script>
+import { Auth } from 'aws-amplify';
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
-  name: 'App',
-
-  data: () => ({
-    //
-  }),
-};
+  data() {
+    return {
+    }
+  },
+  computed: {
+    ...mapGetters({
+      user: 'user'
+    })
+  },
+  methods: {
+    ...mapMutations({
+      setUser: 'setUser'
+    }),
+    async signout () {
+      try {
+        await Auth.signOut();
+        this.setUser(null)
+        this.$router.push('/login')
+      } catch (error) {
+        console.log('error signing out: ', error);
+      }
+    }
+  }
+}
 </script>

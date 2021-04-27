@@ -10,6 +10,8 @@ import vuetify from './plugins/vuetify'
 
 Amplify.configure(aws_exports);
 
+// register global components
+require('./utilities/globalComponentLoader')
 
 Vue.config.productionTip = false
 
