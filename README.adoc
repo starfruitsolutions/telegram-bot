@@ -70,6 +70,7 @@ Configure the project with the following command at the terminal:
 Once that is done, for each branch that you create that is tied to a Jira
 ticket, you would have the following pattern:
 
-git checkout -b BOT-3_description_here_if_you_want
+`git checkout -b BOT-3_description_here_if_you_want`
+
 
 
