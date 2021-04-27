@@ -36,3 +36,40 @@ As we know what is needed to build the commands, we will write that in Postman
 so the platform team can get those connections done. Meaning, the API's will be
 developed to accommodate what is wanted here.
 
+### Jira integration
+
+To help with connecting branches and pull pull requests in Jira, the following
+
+..git/COMMIT_TEMPLATE
+[source, text]
+----
+Short Description
+
+Long description here.
+
+# ------------------------ >8 ------------------------
+# Do not modify or remove the line above.
+# Everything below it will be ignored.
+
+# An example of JIRA integration via this comment message can be:
+
+BOTS-1     #time 2h 15m     #done
+
+It follows the following pattern.
+
+<ISSUE_KEY> #<COMMAND_1> <optional COMMAND_1_ARGUMENTS> #<COMMAND_2> <optional COMMAND_2_ARGUMENTS> ... #<COMMAND_n> <optional COMMAND_n_ARGUMENTS>
+
+See https://support.atlassian.com/bitbucket-cloud/docs/use-smart-commits/ for
+additional details.
+----
+
+Configure the project with the following command at the terminal:
+
+`git config commit.template ./.git/COMMIT_TEMPLATE`
+
+Once that is done, for each branch that you create that is tied to a Jira
+ticket, you would have the following pattern:
+
+git checkout -b BOT-3_description_here_if_you_want
+
+
