@@ -1,0 +1,15 @@
+type Bot @model {
+  id: ID!
+  name: String!
+  description: String
+  commands: [Command] @connection(name: "BotCommands")
+}
+
+type Command @model {
+  id: ID!
+  bot: Bot @connection(name: "BotCommands")
+  name: String!
+  description: String
+  type: String!
+  definition: String!
+}
