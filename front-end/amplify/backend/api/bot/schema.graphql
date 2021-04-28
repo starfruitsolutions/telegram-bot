@@ -9,7 +9,15 @@ type Command @model {
   id: ID!
   bot: Bot @connection(name: "BotCommands")
   name: String!
-  description: String
-  type: String!
-  definition: String!
+  arguments: Int
+  sources: [Source] @connection(name: "CommandSources")
+  template: String
+}
+
+type Source @model {
+  id: ID!
+  command: Command @connection(name: "CommandSources")
+  method: String!
+  url: String!
+  template: String
 }

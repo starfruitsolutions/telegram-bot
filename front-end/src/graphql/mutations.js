@@ -14,9 +14,8 @@ export const createBot = /* GraphQL */ `
         items {
           id
           name
-          description
-          type
-          definition
+          arguments
+          template
           createdAt
           updatedAt
         }
@@ -40,9 +39,8 @@ export const updateBot = /* GraphQL */ `
         items {
           id
           name
-          description
-          type
-          definition
+          arguments
+          template
           createdAt
           updatedAt
         }
@@ -66,9 +64,8 @@ export const deleteBot = /* GraphQL */ `
         items {
           id
           name
-          description
-          type
-          definition
+          arguments
+          template
           createdAt
           updatedAt
         }
@@ -97,9 +94,19 @@ export const createCommand = /* GraphQL */ `
         updatedAt
       }
       name
-      description
-      type
-      definition
+      arguments
+      sources {
+        items {
+          id
+          method
+          url
+          template
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      template
       createdAt
       updatedAt
     }
@@ -123,9 +130,19 @@ export const updateCommand = /* GraphQL */ `
         updatedAt
       }
       name
-      description
-      type
-      definition
+      arguments
+      sources {
+        items {
+          id
+          method
+          url
+          template
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      template
       createdAt
       updatedAt
     }
@@ -149,9 +166,118 @@ export const deleteCommand = /* GraphQL */ `
         updatedAt
       }
       name
-      description
-      type
-      definition
+      arguments
+      sources {
+        items {
+          id
+          method
+          url
+          template
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      template
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createSource = /* GraphQL */ `
+  mutation CreateSource(
+    $input: CreateSourceInput!
+    $condition: ModelSourceConditionInput
+  ) {
+    createSource(input: $input, condition: $condition) {
+      id
+      command {
+        id
+        bot {
+          id
+          name
+          description
+          createdAt
+          updatedAt
+        }
+        name
+        arguments
+        sources {
+          nextToken
+        }
+        template
+        createdAt
+        updatedAt
+      }
+      method
+      url
+      template
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateSource = /* GraphQL */ `
+  mutation UpdateSource(
+    $input: UpdateSourceInput!
+    $condition: ModelSourceConditionInput
+  ) {
+    updateSource(input: $input, condition: $condition) {
+      id
+      command {
+        id
+        bot {
+          id
+          name
+          description
+          createdAt
+          updatedAt
+        }
+        name
+        arguments
+        sources {
+          nextToken
+        }
+        template
+        createdAt
+        updatedAt
+      }
+      method
+      url
+      template
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteSource = /* GraphQL */ `
+  mutation DeleteSource(
+    $input: DeleteSourceInput!
+    $condition: ModelSourceConditionInput
+  ) {
+    deleteSource(input: $input, condition: $condition) {
+      id
+      command {
+        id
+        bot {
+          id
+          name
+          description
+          createdAt
+          updatedAt
+        }
+        name
+        arguments
+        sources {
+          nextToken
+        }
+        template
+        createdAt
+        updatedAt
+      }
+      method
+      url
+      template
       createdAt
       updatedAt
     }

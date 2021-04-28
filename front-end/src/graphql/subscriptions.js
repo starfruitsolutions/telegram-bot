@@ -11,9 +11,8 @@ export const onCreateBot = /* GraphQL */ `
         items {
           id
           name
-          description
-          type
-          definition
+          arguments
+          template
           createdAt
           updatedAt
         }
@@ -34,9 +33,8 @@ export const onUpdateBot = /* GraphQL */ `
         items {
           id
           name
-          description
-          type
-          definition
+          arguments
+          template
           createdAt
           updatedAt
         }
@@ -57,9 +55,8 @@ export const onDeleteBot = /* GraphQL */ `
         items {
           id
           name
-          description
-          type
-          definition
+          arguments
+          template
           createdAt
           updatedAt
         }
@@ -85,9 +82,19 @@ export const onCreateCommand = /* GraphQL */ `
         updatedAt
       }
       name
-      description
-      type
-      definition
+      arguments
+      sources {
+        items {
+          id
+          method
+          url
+          template
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      template
       createdAt
       updatedAt
     }
@@ -108,9 +115,19 @@ export const onUpdateCommand = /* GraphQL */ `
         updatedAt
       }
       name
-      description
-      type
-      definition
+      arguments
+      sources {
+        items {
+          id
+          method
+          url
+          template
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      template
       createdAt
       updatedAt
     }
@@ -131,9 +148,109 @@ export const onDeleteCommand = /* GraphQL */ `
         updatedAt
       }
       name
-      description
-      type
-      definition
+      arguments
+      sources {
+        items {
+          id
+          method
+          url
+          template
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      template
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateSource = /* GraphQL */ `
+  subscription OnCreateSource {
+    onCreateSource {
+      id
+      command {
+        id
+        bot {
+          id
+          name
+          description
+          createdAt
+          updatedAt
+        }
+        name
+        arguments
+        sources {
+          nextToken
+        }
+        template
+        createdAt
+        updatedAt
+      }
+      method
+      url
+      template
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateSource = /* GraphQL */ `
+  subscription OnUpdateSource {
+    onUpdateSource {
+      id
+      command {
+        id
+        bot {
+          id
+          name
+          description
+          createdAt
+          updatedAt
+        }
+        name
+        arguments
+        sources {
+          nextToken
+        }
+        template
+        createdAt
+        updatedAt
+      }
+      method
+      url
+      template
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteSource = /* GraphQL */ `
+  subscription OnDeleteSource {
+    onDeleteSource {
+      id
+      command {
+        id
+        bot {
+          id
+          name
+          description
+          createdAt
+          updatedAt
+        }
+        name
+        arguments
+        sources {
+          nextToken
+        }
+        template
+        createdAt
+        updatedAt
+      }
+      method
+      url
+      template
       createdAt
       updatedAt
     }

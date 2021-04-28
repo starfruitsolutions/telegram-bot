@@ -11,9 +11,8 @@ export const getBot = /* GraphQL */ `
         items {
           id
           name
-          description
-          type
-          definition
+          arguments
+          template
           createdAt
           updatedAt
         }
@@ -60,9 +59,19 @@ export const getCommand = /* GraphQL */ `
         updatedAt
       }
       name
-      description
-      type
-      definition
+      arguments
+      sources {
+        items {
+          id
+          method
+          url
+          template
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      template
       createdAt
       updatedAt
     }
@@ -85,9 +94,68 @@ export const listCommands = /* GraphQL */ `
           updatedAt
         }
         name
-        description
-        type
-        definition
+        arguments
+        sources {
+          nextToken
+        }
+        template
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getSource = /* GraphQL */ `
+  query GetSource($id: ID!) {
+    getSource(id: $id) {
+      id
+      command {
+        id
+        bot {
+          id
+          name
+          description
+          createdAt
+          updatedAt
+        }
+        name
+        arguments
+        sources {
+          nextToken
+        }
+        template
+        createdAt
+        updatedAt
+      }
+      method
+      url
+      template
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listSources = /* GraphQL */ `
+  query ListSources(
+    $filter: ModelSourceFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listSources(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        command {
+          id
+          name
+          arguments
+          template
+          createdAt
+          updatedAt
+        }
+        method
+        url
+        template
         createdAt
         updatedAt
       }
