@@ -5,6 +5,9 @@
         align="center"
         justify="center"
       >
+        <amplify-authenticator/>
+
+        <!--
         <v-card
           width="400"
           class="pa-4"
@@ -41,16 +44,18 @@
             </v-form>
           </v-container>
         </v-card>
+      -->
       </v-row>
     </v-container>
 </template>
 
 <script>
-import { Auth } from 'aws-amplify';
+import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components'
 import { mapMutations } from 'vuex'
 
 export default {
   name: 'Login',
+  /*
   data () {
     return {
       valid: false,
@@ -58,10 +63,12 @@ export default {
       password: null
     }
   },
+  */
   methods: {
     ...mapMutations({
       setUser: 'setUser'
     }),
+    /*
     async submit () {
       try {
         const user = await Auth.signIn(this.username, this.password)
@@ -71,6 +78,17 @@ export default {
         console.log('error signing in', error)
       }
     }
+    */
+  },
+  created() {
+    // authentication state managament
+    onAuthUIStateChange((state, user) => {
+      // set current user and load data after login
+      if (state === AuthState.SignedIn) {
+        this.setUser(user)
+        this.$router.push('/')
+      }
+    })
   }
 }
 </script>
