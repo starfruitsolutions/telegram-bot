@@ -12,6 +12,12 @@
       @cancel="close"
     >
       <v-text-field
+        v-model="editedItem.name"
+        :rules="[validationRules.required]"
+        label="Name"
+        prepend-icon="fa-robot"
+      />
+      <v-text-field
         v-model="editedItem.method"
         :rules="[validationRules.required]"
         label="Method"
@@ -25,17 +31,17 @@
     </Modal>
     <div v-if="command.sources">
       <Card
-        v-for="source in command.sources.items"
+        v-for="(source, index) in command.sources.items"
         :margins="false"
         :key="source.id"
       >
         <v-row align="center">
-            {{ source.method }} {{ source.url }}
+            <strong>{{source.name}}</strong>: {{ source.method }} {{ source.url }}
           <v-spacer/>
           <v-btn
             icon
             color="orange"
-            @click="editItem(props.index)"
+            @click="editItem(index)"
           >
             <v-icon dark>
               fa-edit
@@ -75,6 +81,11 @@
       }
     },
     methods: {
+      editItem (index) {
+        this.editedIndex = index
+        this.editedItem = this.command.sources.items[index]
+        this.dialog = true
+      },
       async save () {
         if (this.editedItem.id){
           await this.updateSource(this.editedItem)
@@ -87,13 +98,27 @@
       async createSource (source) {
         await API.graphql({
           query: createSource,
-          variables: {input: {sourceCommandId: this.command.id, ...source}}
+          variables: {
+            input: {
+              sourceCommandId: this.command.id,
+              name: source.name,
+              method: source.method,
+              url: source.url
+            }
+          }
         })
       },
       async updateSource (source) {
         await API.graphql({
           query: updateSource,
-          variables: {input: {id: this.command.id, ...source}}
+          variables: {
+            input: {
+              id: source.id,
+              name: source.name,
+              method: source.method,
+              url: source.url
+            }
+          }
         })
       },
       async deleteSource (source) {

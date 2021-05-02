@@ -7,7 +7,7 @@
     >
       <a to="/" class="white--text d-flex align-center">
         <h1 class="ml-2">
-          Euler.tools bots
+          Euler.tools Bots
         </h1>
       </a>
 
@@ -15,6 +15,7 @@
       <div v-if="user">
         {{ user.username }}
         <v-btn
+          class="ml-4"
           @click="signout"
         >
           Log Out

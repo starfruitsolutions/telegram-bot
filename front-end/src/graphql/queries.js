@@ -63,6 +63,7 @@ export const getCommand = /* GraphQL */ `
       sources {
         items {
           id
+          name
           method
           url
           template
@@ -110,6 +111,7 @@ export const getSource = /* GraphQL */ `
   query GetSource($id: ID!) {
     getSource(id: $id) {
       id
+      name
       command {
         id
         bot {
@@ -145,6 +147,7 @@ export const listSources = /* GraphQL */ `
     listSources(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        name
         command {
           id
           name

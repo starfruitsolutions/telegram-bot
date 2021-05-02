@@ -1,6 +1,6 @@
 type Bot @model {
   id: ID!
-  name: String!
+  name: String
   description: String
   commands: [Command] @connection(name: "BotCommands")
 }
@@ -8,16 +8,17 @@ type Bot @model {
 type Command @model {
   id: ID!
   bot: Bot @connection(name: "BotCommands")
-  name: String!
-  arguments: Int
+  name: String
+  arguments: String
   sources: [Source] @connection(name: "CommandSources")
   template: String
 }
 
 type Source @model {
   id: ID!
+  name: String
   command: Command @connection(name: "CommandSources")
-  method: String!
-  url: String!
+  method: String
+  url: String
   template: String
 }

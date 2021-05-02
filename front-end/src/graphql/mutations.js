@@ -98,6 +98,7 @@ export const createCommand = /* GraphQL */ `
       sources {
         items {
           id
+          name
           method
           url
           template
@@ -134,6 +135,7 @@ export const updateCommand = /* GraphQL */ `
       sources {
         items {
           id
+          name
           method
           url
           template
@@ -170,6 +172,7 @@ export const deleteCommand = /* GraphQL */ `
       sources {
         items {
           id
+          name
           method
           url
           template
@@ -191,6 +194,7 @@ export const createSource = /* GraphQL */ `
   ) {
     createSource(input: $input, condition: $condition) {
       id
+      name
       command {
         id
         bot {
@@ -224,6 +228,7 @@ export const updateSource = /* GraphQL */ `
   ) {
     updateSource(input: $input, condition: $condition) {
       id
+      name
       command {
         id
         bot {
@@ -257,6 +262,7 @@ export const deleteSource = /* GraphQL */ `
   ) {
     deleteSource(input: $input, condition: $condition) {
       id
+      name
       command {
         id
         bot {

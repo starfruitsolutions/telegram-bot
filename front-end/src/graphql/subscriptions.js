@@ -86,6 +86,7 @@ export const onCreateCommand = /* GraphQL */ `
       sources {
         items {
           id
+          name
           method
           url
           template
@@ -119,6 +120,7 @@ export const onUpdateCommand = /* GraphQL */ `
       sources {
         items {
           id
+          name
           method
           url
           template
@@ -152,6 +154,7 @@ export const onDeleteCommand = /* GraphQL */ `
       sources {
         items {
           id
+          name
           method
           url
           template
@@ -170,6 +173,7 @@ export const onCreateSource = /* GraphQL */ `
   subscription OnCreateSource {
     onCreateSource {
       id
+      name
       command {
         id
         bot {
@@ -200,6 +204,7 @@ export const onUpdateSource = /* GraphQL */ `
   subscription OnUpdateSource {
     onUpdateSource {
       id
+      name
       command {
         id
         bot {
@@ -230,6 +235,7 @@ export const onDeleteSource = /* GraphQL */ `
   subscription OnDeleteSource {
     onDeleteSource {
       id
+      name
       command {
         id
         bot {

@@ -6,13 +6,13 @@
       @submit.prevent="submit"
     >
       <v-text-field
-        v-model="form.name"
+        v-model="command.name"
         :rules="[validationRules.required]"
         label="Name"
         prepend-icon="fa-robot"
       />
       <v-text-field
-        v-model="form.arguments"
+        v-model="command.arguments"
         label="Arguments"
         prepend-icon="fa-file-alt"
       />
@@ -20,7 +20,7 @@
       <h4 class="my-5">Template</h4>
       <v-textarea
         outlined
-        v-model="form.template"
+        v-model="command.template"
         :rules="[validationRules.required]"
       />
       <v-btn
@@ -77,14 +77,28 @@
       async create () {
         await API.graphql({
           query: createCommand,
-          variables: {input: {commandBotId: this.bot.id, ...this.form}}
+          variables: {
+            input: {
+              commandBotId: this.bot.id,
+              name: this.command.name,
+              arguments: this.command.arguments,
+              template: this.command.template
+            }
+          }
         })
         //get the command id
       },
       async update () {
         await API.graphql({
           query: updateCommand,
-          variables: {input: {id: this.command.id, ...this.form}}
+          variables: {
+            input: {
+              id: this.command.id,
+              name: this.command.name,
+              arguments: this.command.arguments,
+              template: this.command.template
+            }
+          }
         })
       },
       async getCommand(id) {
