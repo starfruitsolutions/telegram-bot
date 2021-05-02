@@ -1,0 +1,35 @@
+{
+    "paths": [
+        {
+            "name": "/",
+            "lambdaFunction": "testBot",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/"
+        }
+    ],
+    "resourceName": "telegramBot",
+    "apiName": "telegramBot",
+    "functionArns": [
+        {
+            "lambdaFunction": "testBot"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-bot-bot-183515-authRole",
+        "unAuthRoleName": "amplify-bot-bot-183515-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "testBot",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

@@ -32,6 +32,12 @@
     "categories": {
       "auth": {
         "botd1f8d78c": {}
+      },
+      "function": {
+        "testBot": {
+          "deploymentBucketName": "amplify-bot-bot-183515-deployment",
+          "s3Key": "amplify-builds/testBot-306431374b5756723647-build.zip"
+        }
       }
     }
   }
