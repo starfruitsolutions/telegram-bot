@@ -11,7 +11,10 @@
         label="Name"
         prepend-icon="fa-robot"
       />
-      <v-text-field
+      <v-textarea
+        outlined
+        rows="3"
+        auto-grow
         v-model="form.description"
         :rules="[validationRules.required]"
         label="Description"
@@ -30,24 +33,51 @@
 
 <script>
   import { API } from 'aws-amplify';
-  import { createBot } from '@/graphql/mutations';
+  import { createBot, updateBot } from '@/graphql/mutations';
 
   export default {
+    props: {
+      bot: {
+        type: Object,
+        default: () => {}
+      },
+    },
     data () {
       return {
         form: {
           name: null,
           description: null
-        }
+        },
+        valid: false
       }
     },
     methods: {
       async submit () {
+        if (this.bot) {
+          this.update()
+        }
+        else {
+          this.create()
+        }
+      },
+      async create () {
         await API.graphql({
           query: createBot,
-          variables: {input: this.form},
-        });
+          variables: {input: this.form}
+        })
         this.$refs.form.reset()
+      },
+      async update () {
+        await API.graphql({
+          query: updateBot,
+          variables: {input: {...this.form, id: this.bot.id}}
+        })
+      }
+    },
+    mounted() {
+      if(this.bot){
+        this.form.name = this.bot.name
+        this.form.description = this.bot.description
       }
     }
   }
