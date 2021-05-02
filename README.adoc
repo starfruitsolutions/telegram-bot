@@ -74,10 +74,18 @@ ticket, you would have the following pattern:
 
 include::./front-end/README.md[offset=+1]
 
+# Operation
+
+## Connect telegram to webhook:
+- Add TELEGRAM_TOKEN to Lambda environmental Variable
+- Register webhook with telegram
+  ```bash
+    curl --request POST --url https://api.telegram.org/bot<TELEGRAM_TOKEN>/setWebhook --header 'content-type: application/json' --data '{"url": "<WEBHOOK_URL>"}'
+  ```
+
 ## Copyrights and Licenses
 
 This document is {copyright} {author}.
 
 Portions of this software is copyright and licensed as found in various LICENSE
 files.
-
