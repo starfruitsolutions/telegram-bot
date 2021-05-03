@@ -23,13 +23,13 @@
         }
       }
     },
-    "telegramBot": {
+    "testBotWebhook": {
       "service": "API Gateway",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "testBot",
+          "resourceName": "testBotWebhook",
           "attributes": [
             "Name",
             "Arn"
@@ -39,7 +39,7 @@
     }
   },
   "function": {
-    "testBot": {
+    "testBotWebhook": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"

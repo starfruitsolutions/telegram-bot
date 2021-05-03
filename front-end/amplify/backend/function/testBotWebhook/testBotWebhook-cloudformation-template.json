@@ -47,12 +47,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "testBot",
+            "testBotWebhook",
             {
               "Fn::Join": [
                 "",
                 [
-                  "testBot",
+                  "testBotWebhook",
                   "-",
                   {
                     "Ref": "env"
@@ -89,12 +89,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "botLambdaRole463d3891",
+            "botLambdaRole9ef43707",
             {
               "Fn::Join": [
                 "",
                 [
-                  "botLambdaRole463d3891",
+                  "botLambdaRole9ef43707",
                   "-",
                   {
                     "Ref": "env"

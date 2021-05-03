@@ -14,15 +14,15 @@
         },
     
     
-          "functiontestBotName": {
+          "functiontestBotWebhookName": {
             "Type": "String",
-            "Default": "functiontestBotName"
+            "Default": "functiontestBotWebhookName"
           },
         
           
-          "functiontestBotArn": {
+          "functiontestBotWebhookArn": {
             "Type": "String",
-            "Default": "functiontestBotArn"
+            "Default": "functiontestBotWebhookArn"
           }
         
           
@@ -45,16 +45,16 @@
         
         
         
-      "telegramBot": {
+      "testBotWebhook": {
         "Type": "AWS::ApiGateway::RestApi",
         "Properties": {
           "Description": "",
-          "Name": "telegramBot",
+          "Name": "testBotWebhook",
           "Body": {
             "swagger": "2.0",
             "info": {
               "version": "2018-05-24T17:52:00Z",
-              "title": "telegramBot"
+              "title": "testBotWebhook"
             },
             "host": {
                 "Fn::Join": [
@@ -176,7 +176,7 @@
                             
                             {
                                 
-                                "Ref": "functiontestBotArn"
+                                "Ref": "functiontestBotWebhookArn"
                             },
                             
                             "/invocations"
@@ -275,7 +275,7 @@
                           
                           {
                             
-                            "Ref": "functiontestBotArn"
+                            "Ref": "functiontestBotWebhookArn"
                           },
                           
                           "/invocations"
@@ -332,12 +332,12 @@
                   
         
         
-        "functiontestBotPermissiontelegramBot": {
+        "functiontestBotWebhookPermissiontestBotWebhook": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
                 "FunctionName": 
                     {
-                        "Ref":  "functiontestBotName"
+                        "Ref":  "functiontestBotWebhookName"
                     },
                     
                     "Action": "lambda:InvokeFunction",
@@ -356,7 +356,7 @@
                             },
                             ":",
                             {
-                                "Ref": "telegramBot"
+                                "Ref": "testBotWebhook"
                             },
                             "/*/*/*"
                         ]
@@ -367,7 +367,7 @@
         
         
         
-      "DeploymentAPIGWtelegramBot": {
+      "DeploymentAPIGWtestBotWebhook": {
         "Type": "AWS::ApiGateway::Deployment",
         "Properties": {
           "Description": "The Development stage deployment of your API.",
@@ -381,7 +381,7 @@
             ]
           },
           "RestApiId": {
-            "Ref": "telegramBot"
+            "Ref": "testBotWebhook"
           }
         }
       }
@@ -389,15 +389,15 @@
     "Outputs": {
         "RootUrl": {
             "Description": "Root URL of the API gateway",
-            "Value": {"Fn::Join": ["", ["https://", {"Ref": "telegramBot"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/", {"Fn::If": ["ShouldNotCreateEnvResources","Prod", {"Ref": "env"} ]}]]}
+            "Value": {"Fn::Join": ["", ["https://", {"Ref": "testBotWebhook"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/", {"Fn::If": ["ShouldNotCreateEnvResources","Prod", {"Ref": "env"} ]}]]}
         },
         "ApiName": {
           "Description": "API Friendly name",
-          "Value": "telegramBot"
+          "Value": "testBotWebhook"
         },
         "ApiId": {
           "Description": "API ID (prefix of API URL)",
-          "Value": {"Ref": "telegramBot"}
+          "Value": {"Ref": "testBotWebhook"}
         }
     }
   }

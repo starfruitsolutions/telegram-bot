@@ -2,18 +2,18 @@
     "paths": [
         {
             "name": "/",
-            "lambdaFunction": "testBot",
+            "lambdaFunction": "testBotWebhook",
             "privacy": {
                 "open": true
             },
             "policyResourceName": "/"
         }
     ],
-    "resourceName": "telegramBot",
-    "apiName": "telegramBot",
+    "resourceName": "testBotWebhook",
+    "apiName": "testBotWebhook",
     "functionArns": [
         {
-            "lambdaFunction": "testBot"
+            "lambdaFunction": "testBotWebhook"
         }
     ],
     "privacy": {
@@ -25,7 +25,7 @@
     "dependsOn": [
         {
             "category": "function",
-            "resourceName": "testBot",
+            "resourceName": "testBotWebhook",
             "attributes": [
                 "Name",
                 "Arn"

@@ -1,0 +1,10 @@
+{
+  "body": {
+    "message": {
+      "chat": {
+        "id": "1712961231"
+      },
+      "text": "/hello world"
+    }
+  }
+}
