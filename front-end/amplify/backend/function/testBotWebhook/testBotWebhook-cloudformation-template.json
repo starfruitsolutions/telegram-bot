@@ -15,6 +15,14 @@
     },
     "s3Key": {
       "Type": "String"
+    },
+    "apibotGraphQLAPIIdOutput": {
+      "Type": "String",
+      "Default": "apibotGraphQLAPIIdOutput"
+    },
+    "apibotGraphQLAPIEndpointOutput": {
+      "Type": "String",
+      "Default": "apibotGraphQLAPIEndpointOutput"
     }
   },
   "Conditions": {
@@ -69,6 +77,12 @@
             },
             "REGION": {
               "Ref": "AWS::Region"
+            },
+            "API_BOT_GRAPHQLAPIIDOUTPUT": {
+              "Ref": "apibotGraphQLAPIIdOutput"
+            },
+            "API_BOT_GRAPHQLAPIENDPOINTOUTPUT": {
+              "Ref": "apibotGraphQLAPIEndpointOutput"
             }
           }
         },
@@ -160,6 +174,53 @@
                   }
                 ]
               }
+            }
+          ]
+        }
+      }
+    },
+    "AmplifyResourcesPolicy": {
+      "DependsOn": [
+        "LambdaExecutionRole"
+      ],
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "amplify-lambda-execution-policy",
+        "Roles": [
+          {
+            "Ref": "LambdaExecutionRole"
+          }
+        ],
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "appsync:GraphQL"
+              ],
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:appsync:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":apis/",
+                      {
+                        "Ref": "apibotGraphQLAPIIdOutput"
+                      },
+                      "/types/Query/*"
+                    ]
+                  ]
+                }
+              ]
             }
           ]
         }

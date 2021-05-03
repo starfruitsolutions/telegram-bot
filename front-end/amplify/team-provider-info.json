@@ -36,7 +36,7 @@
       "function": {
         "testBotWebhook": {
           "deploymentBucketName": "amplify-bot-bot-183515-deployment",
-          "s3Key": "amplify-builds/testBotWebhook-556b477741534f793841-build.zip"
+          "s3Key": "amplify-builds/testBotWebhook-32702f776b39304e6d45-build.zip"
         }
       }
     }
