@@ -10,6 +10,8 @@ export const createBot = /* GraphQL */ `
       id
       name
       description
+      createdAt
+      updatedAt
       commands {
         items {
           id
@@ -21,8 +23,6 @@ export const createBot = /* GraphQL */ `
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -35,6 +35,8 @@ export const updateBot = /* GraphQL */ `
       id
       name
       description
+      createdAt
+      updatedAt
       commands {
         items {
           id
@@ -46,8 +48,6 @@ export const updateBot = /* GraphQL */ `
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -60,6 +60,8 @@ export const deleteBot = /* GraphQL */ `
       id
       name
       description
+      createdAt
+      updatedAt
       commands {
         items {
           id
@@ -71,8 +73,6 @@ export const deleteBot = /* GraphQL */ `
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -83,33 +83,33 @@ export const createCommand = /* GraphQL */ `
   ) {
     createCommand(input: $input, condition: $condition) {
       id
+      name
+      arguments
+      template
+      createdAt
+      updatedAt
       bot {
         id
         name
         description
+        createdAt
+        updatedAt
         commands {
           nextToken
         }
-        createdAt
-        updatedAt
       }
-      name
-      arguments
       sources {
         items {
           id
           name
           method
           url
-          template
+          body
           createdAt
           updatedAt
         }
         nextToken
       }
-      template
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -120,33 +120,33 @@ export const updateCommand = /* GraphQL */ `
   ) {
     updateCommand(input: $input, condition: $condition) {
       id
+      name
+      arguments
+      template
+      createdAt
+      updatedAt
       bot {
         id
         name
         description
+        createdAt
+        updatedAt
         commands {
           nextToken
         }
-        createdAt
-        updatedAt
       }
-      name
-      arguments
       sources {
         items {
           id
           name
           method
           url
-          template
+          body
           createdAt
           updatedAt
         }
         nextToken
       }
-      template
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -157,33 +157,33 @@ export const deleteCommand = /* GraphQL */ `
   ) {
     deleteCommand(input: $input, condition: $condition) {
       id
+      name
+      arguments
+      template
+      createdAt
+      updatedAt
       bot {
         id
         name
         description
+        createdAt
+        updatedAt
         commands {
           nextToken
         }
-        createdAt
-        updatedAt
       }
-      name
-      arguments
       sources {
         items {
           id
           name
           method
           url
-          template
+          body
           createdAt
           updatedAt
         }
         nextToken
       }
-      template
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -195,8 +195,18 @@ export const createSource = /* GraphQL */ `
     createSource(input: $input, condition: $condition) {
       id
       name
+      method
+      url
+      body
+      createdAt
+      updatedAt
       command {
         id
+        name
+        arguments
+        template
+        createdAt
+        updatedAt
         bot {
           id
           name
@@ -204,20 +214,10 @@ export const createSource = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        name
-        arguments
         sources {
           nextToken
         }
-        template
-        createdAt
-        updatedAt
       }
-      method
-      url
-      template
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -229,8 +229,18 @@ export const updateSource = /* GraphQL */ `
     updateSource(input: $input, condition: $condition) {
       id
       name
+      method
+      url
+      body
+      createdAt
+      updatedAt
       command {
         id
+        name
+        arguments
+        template
+        createdAt
+        updatedAt
         bot {
           id
           name
@@ -238,20 +248,10 @@ export const updateSource = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        name
-        arguments
         sources {
           nextToken
         }
-        template
-        createdAt
-        updatedAt
       }
-      method
-      url
-      template
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -263,8 +263,18 @@ export const deleteSource = /* GraphQL */ `
     deleteSource(input: $input, condition: $condition) {
       id
       name
+      method
+      url
+      body
+      createdAt
+      updatedAt
       command {
         id
+        name
+        arguments
+        template
+        createdAt
+        updatedAt
         bot {
           id
           name
@@ -272,20 +282,10 @@ export const deleteSource = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        name
-        arguments
         sources {
           nextToken
         }
-        template
-        createdAt
-        updatedAt
       }
-      method
-      url
-      template
-      createdAt
-      updatedAt
     }
   }
 `;

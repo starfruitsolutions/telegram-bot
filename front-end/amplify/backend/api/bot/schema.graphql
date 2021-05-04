@@ -1,11 +1,23 @@
-type Bot @model {
+type Bot
+  @model
+  @auth(rules: [
+    {allow: private, provider: iam, operations: [read]},
+    {allow: private, provider: userPools, operations: [read, create, delete, update]}
+  ])
+{
   id: ID!
   name: String
   description: String
   commands: [Command] @connection(name: "BotCommands")
 }
 
-type Command @model {
+type Command
+  @model
+  @auth(rules: [
+    {allow: private, provider: iam, operations: [read]},
+    {allow: private, provider: userPools, operations: [read, create, delete, update]}
+  ])
+{
   id: ID!
   bot: Bot @connection(name: "BotCommands")
   name: String
@@ -14,11 +26,17 @@ type Command @model {
   template: String
 }
 
-type Source @model {
+type Source
+  @model
+  @auth(rules: [
+    {allow: private, provider: iam, operations: [read]},
+    {allow: private, provider: userPools, operations: [read, create, delete, update]}
+  ])
+{
   id: ID!
-  name: String
   command: Command @connection(name: "CommandSources")
+  name: String
   method: String
   url: String
-  template: String
+  body: String
 }

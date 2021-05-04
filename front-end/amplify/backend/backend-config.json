@@ -19,7 +19,11 @@
               "userPoolId": "authbotd1f8d78c"
             }
           },
-          "additionalAuthenticationProviders": []
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AWS_IAM"
+            }
+          ]
         }
       }
     },

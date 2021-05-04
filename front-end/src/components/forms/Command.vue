@@ -1,27 +1,23 @@
 <template>
   <div>
+    command{{command}}
     <v-form
       ref="form"
       v-model="valid"
       @submit.prevent="submit"
     >
       <v-text-field
-        v-model="command.name"
+        v-model="form.name"
         :rules="[validationRules.required]"
         label="Name"
         prepend-icon="fa-robot"
       />
-      <v-text-field
-        v-model="command.arguments"
-        label="Arguments"
-        prepend-icon="fa-file-alt"
-      />
-      <sources :command="command"/>
+      <sources :command="form"/>
       <h4 class="my-5">Template</h4>
       <v-textarea
-        outlined
-        v-model="command.template"
+        v-model="form.template"
         :rules="[validationRules.required]"
+        outlined
       />
       <v-btn
         :disabled="!valid"
@@ -52,16 +48,18 @@
       },
       command: {
         type: Object,
-        default: () => {}
+        default: () => {
+          return{
+            name: '',
+            sources: {},
+            template: ''
+          }
+        }
       }
     },
     data () {
       return {
-        form: {
-          name: null,
-          arguments: null,
-          template: null
-        },
+        form: {},
         valid: false
       }
     },
@@ -80,9 +78,8 @@
           variables: {
             input: {
               commandBotId: this.bot.id,
-              name: this.command.name,
-              arguments: this.command.arguments,
-              template: this.command.template
+              name: this.form.name,
+              template: this.form.template
             }
           }
         })
@@ -93,10 +90,9 @@
           query: updateCommand,
           variables: {
             input: {
-              id: this.command.id,
-              name: this.command.name,
-              arguments: this.command.arguments,
-              template: this.command.template
+              id: this.form.id,
+              name: this.form.name,
+              template: this.form.template
             }
           }
         })
@@ -106,8 +102,7 @@
           query: getCommand,
           variables: { id: id }
         })
-        console.log(command.data.getCommand)
-        this.command = command.data.getCommand
+        this.form = command.data.getCommand
       },
     },
     created() {
@@ -121,7 +116,8 @@
       })
     },
     mounted() {
-      if(this.command){
+      this.form = this.command
+      if(this.command.id){
         this.getCommand(this.command.id)
       }
     }

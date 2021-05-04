@@ -11,6 +11,7 @@
       @ok="save"
       @cancel="close"
     >
+      {{editedItem}}
       <v-text-field
         v-model="editedItem.name"
         :rules="[validationRules.required]"
@@ -28,7 +29,13 @@
         label="URL"
         prepend-icon="fa-file-alt"
       />
+      <v-textarea
+        v-model="editedItem.body"
+        outlined
+        label="Body"
+      />
     </Modal>
+    {{command.sources}}
     <div v-if="command.sources">
       <Card
         v-for="(source, index) in command.sources.items"
@@ -103,7 +110,8 @@
               sourceCommandId: this.command.id,
               name: source.name,
               method: source.method,
-              url: source.url
+              url: source.url,
+              body: source.body
             }
           }
         })
@@ -116,7 +124,8 @@
               id: source.id,
               name: source.name,
               method: source.method,
-              url: source.url
+              url: source.url,
+              body: source.body
             }
           }
         })

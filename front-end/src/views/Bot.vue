@@ -1,7 +1,8 @@
 <template>
   <div v-if="bot">
     <v-btn to="/">Back</v-btn>
-    <h1 class="my-5">Bot: {{ bot.name }} </h1>
+    <h1>Bot: {{ bot.name }} </h1>
+    <h4 class="mb-5">ID: {{ bot.id }}</h4>
     <bot :bot="bot"/>
     <h2 class="my-5">Commands</h2>
     <v-btn @click="addVisible = !addVisible"> Add command</v-btn>

@@ -3,10 +3,16 @@
 	API_BOT_GRAPHQLAPIIDOUTPUT
 	ENV
 	REGION
-Amplify Params - DO NOT EDIT */const axios = require('axios')
-const gql = require('graphql-tag')
-const graphql = require('graphql')
-const { print } = graphql
+Amplify Params - DO NOT EDIT */
+const axios = require('axios')
+var Mustache = require('mustache')
+const {GraphQLGateway, IAMCredentialsStrategy} = require('@crft/appsync-gateway')
+const creds = new IAMCredentialsStrategy();
+
+const gateway = new GraphQLGateway(
+  creds,
+  process.env.API_BOT_GRAPHQLAPIENDPOINTOUTPUT
+)
 
 const TELEGRAM_URL = 'https://api.telegram.org/bot'
 const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN
@@ -22,28 +28,27 @@ const BOT_ID = process.env.BOT_ID
 const exit = {
   statusCode: 200
 }
-const getBot = gql`
-   query GetBot($id: ID!) {
-     getBot(id: $id) {
-       id
-       name
-       description
-       commands {
-         items {
-           id
-           name
-           arguments
-           template
-           createdAt
-           updatedAt
-         }
-         nextToken
-       }
-       createdAt
-       updatedAt
-     }
-   }
+const getCommand = `
+  query getCommand($bot: ID!, $name: String!) {
+    getBot(id: $bot) {
+      commands(filter: {name: {eq: $name}}) {
+        items {
+          name
+          template
+          sources {
+            items {
+              name
+              method
+              body
+              url
+            }
+          }
+        }
+      }
+    }
+  }
  `
+
 function sendMessage(chat_id, text) {
   return axios({
     url: `${TELEGRAM_URL}${TELEGRAM_TOKEN}/sendMessage`,
@@ -61,66 +66,92 @@ function debug(text) {
 
 function parseCommand(message) {
   console.log('parse command')
-  // if it's not a properly formed command escape
+  // if it's not properly formed stop
   if(!message.entities || message.entities[0].type != 'bot_command' || message.entities[0].offset != '0'){
     console.log('malformed command')
     return false
   }
-  var split = message.text.split(/\s+/)
+  var args = message.text.split(/\s+/)
+  args[0] = args[0].split('@')[0] // tosses @user
 
-  return {
-    call: split[0].split('@')[0], //tosses the @user for now
-    arguments: split.slice(1)
-  }
+  return args
 }
 
-async function getConfig(command){
-  return axios({
-    url: API_URL,
-    method: 'post',
-    headers: {
-      'Authorization': API_KEY
-    },
-    data: {
-      query: print(getBot),
-      variables: {id: BOT_ID}
+async function getConfig(args){
+  return gateway.runQuery({
+    operationName: 'getCommand',
+    query: getCommand,
+    variables: {
+      bot: BOT_ID,
+      name: args[0] // first arg is command
     }
   })
 }
 
+function render(template, data){
+  console.log('render template')
+  return Mustache.render(template, data)
+}
+
+async function fetchSources(sources, args){
+  console.log('fetching sources')
+  var data = {}
+
+  for (i = 0; i < sources.length; i++) {
+    console.log(sources[i])
+    var response = await axios({
+      url: sources[i].url,
+      method: sources[i].method,
+      data: sources[i].body
+    })
+    console.log(response)
+    data[sources[i].name] = response.data
+  }
+  return data
+}
+
 exports.handler = async (event, context) => {
   console.log(process.env)
+  try {
+    console.log('parse body')
+    const body = JSON.parse(event.body)
+    console.log(body)
 
-  console.log('parse body')
-  const body = JSON.parse(event.body)
+    console.log('get message')
+    const message = body.message
+    console.log(message)
 
-  console.log('get message')
-  const message = body.message
-
-  const command = parseCommand(message)
-  if (!command){
-    console.log('no valid command')
-    return exit
-  }
+    const args = parseCommand(message)
+    if (!args){
+      console.log('no valid command')
+      return exit
+    }
 
   // get the config for the command
-  let config
-  try {
     console.log('performing query')
-    const response = await getConfig(command)
-    config = response.data.data.getBot
+    const response = await getConfig(args)
+    config = response.getBot.commands.items[0] // use first result
+
+    var templateData = {
+      args
+    }
+    // command arguments
+    if(config.sources && config.sources.items){
+      templateData.sources = await fetchSources(config.sources.items, args)
+    }
+
+    // render template
+    console.log('rendering template')
+    console.log(templateData)
+    var toSend = render(config.template, templateData)
+
+    //send the message
+    console.log('Sending message')
+    await sendMessage(message.chat.id, toSend)
   }
   catch(error) {
     console.log(error)
     return exit
-  }
-
-  // send message to telegram
-  try{
-    await sendMessage(message.chat.id, config)
-  }
-  catch(error){
-    console.log(error)
   }
 
   // telegram must recieve a 200 statusCode to consider it settled
