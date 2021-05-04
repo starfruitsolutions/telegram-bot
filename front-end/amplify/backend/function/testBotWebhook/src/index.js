@@ -11,12 +11,17 @@ const { print } = graphql
 const TELEGRAM_URL = 'https://api.telegram.org/bot'
 const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN
 const DEBUG_CHAT = process.env.DEBUG_CHAT
+const API_URL = process.env.API_BOT_GRAPHQLAPIENDPOINTOUTPUT
+const API_ID = process.env.API_BOT_GRAPHQLAPIIDOUTPUT
+const API_KEY = process.env.API_KEY
 const BOT_ID = process.env.BOT_ID
 
 /**********************
  * Bot handler *
  **********************/
-
+const exit = {
+  statusCode: 200
+}
 const getBot = gql`
    query GetBot($id: ID!) {
      getBot(id: $id) {
@@ -55,8 +60,10 @@ function debug(text) {
 }
 
 function parseCommand(message) {
+  console.log('parse command')
   // if it's not a properly formed command escape
   if(!message.entities || message.entities[0].type != 'bot_command' || message.entities[0].offset != '0'){
+    console.log('malformed command')
     return false
   }
   var split = message.text.split(/\s+/)
@@ -67,39 +74,55 @@ function parseCommand(message) {
   }
 }
 
-function getConfig(command){
+async function getConfig(command){
   return axios({
-    url: process.env.API_BOT_GRAPHQLAPIENDPOINTOUTPUT,
+    url: API_URL,
     method: 'post',
     headers: {
-      'x-api-key': process.env.API_BOT_GRAPHQLAPIKEYOUTPUT
+      'Authorization': API_KEY
     },
     data: {
       query: print(getBot),
+      variables: {id: BOT_ID}
     }
   })
 }
 
 exports.handler = async (event, context) => {
-  console.log(process.env.API_BOT_GRAPHQLAPIKEYOUTPUT)
+  console.log(process.env)
+
+  console.log('parse body')
   const body = JSON.parse(event.body)
 
+  console.log('get message')
   const message = body.message
 
   const command = parseCommand(message)
-
   if (!command){
-    return {
-      statusCode: 200
-    }
+    console.log('no valid command')
+    return exit
   }
-  //console.log('performing query')
-  //var config = await getConfig(command)
-  //console.log(config)
-  await sendMessage(message.chat.id, command)
-  // await debug(JSON.stringify(body))
 
-  return {
-    statusCode: 200
+  // get the config for the command
+  let config
+  try {
+    console.log('performing query')
+    const response = await getConfig(command)
+    config = response.data.data.getBot
   }
+  catch(error) {
+    console.log(error)
+    return exit
+  }
+
+  // send message to telegram
+  try{
+    await sendMessage(message.chat.id, config)
+  }
+  catch(error){
+    console.log(error)
+  }
+
+  // telegram must recieve a 200 statusCode to consider it settled
+  return exit
 }
