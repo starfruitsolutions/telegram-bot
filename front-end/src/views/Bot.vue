@@ -12,7 +12,9 @@
         v-for="command in bot.commands.items"
         :key="command.id"
       >
-        <v-expansion-panel-header><h3>{{ command.name }}</h3></v-expansion-panel-header>
+        <v-expansion-panel-header>
+          <h3>{{ command.name }}</h3>
+        </v-expansion-panel-header>
         <v-expansion-panel-content>
           <command :command="command"/>
         </v-expansion-panel-content>
@@ -23,7 +25,7 @@
 
 <script>
   import { API, graphqlOperation } from 'aws-amplify'
-  import {onUpdateBot} from '@/graphql/subscriptions'
+  import {onUpdateBot, onDeleteCommand} from '@/graphql/subscriptions'
   import { getBot } from '@/graphql/queries'
 
   import bot from "@/components/forms/Bot"
@@ -45,6 +47,7 @@
     },
     methods: {
       async getBot(id) {
+        console.log('reloading bot')
         const bot = await API.graphql({
           query: getBot,
           variables: { id: id }
@@ -55,8 +58,16 @@
     },
     async created() {
       this.getBot(this.$route.params.id)
-      this.subscription = API.graphql(
+
+      this.botSubscription = API.graphql(
         graphqlOperation(onUpdateBot)
+      ).subscribe({
+        next: () => this.getBot(),
+        error: error => console.warn(error)
+      })
+
+      this.commandSubscription = API.graphql(
+        graphqlOperation(onDeleteCommand)
       ).subscribe({
         next: () => this.getBot(),
         error: error => console.warn(error)

@@ -35,7 +35,6 @@
         label="Body"
       />
     </Modal>
-    {{command.sources}}
     <div v-if="command.sources">
       <Card
         v-for="(source, index) in command.sources.items"

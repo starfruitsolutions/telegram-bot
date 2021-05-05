@@ -78,6 +78,7 @@ function parseCommand(message) {
 }
 
 async function getConfig(args){
+  console.log('performing query')
   return gateway.runQuery({
     operationName: 'getCommand',
     query: getCommand,
@@ -93,16 +94,17 @@ function render(template, data){
   return Mustache.render(template, data)
 }
 
-async function fetchSources(sources, args){
+async function fetchSources(sources, templateData){
   console.log('fetching sources')
   var data = {}
 
   for (i = 0; i < sources.length; i++) {
     console.log(sources[i])
+
     var response = await axios({
-      url: sources[i].url,
-      method: sources[i].method,
-      data: sources[i].body
+      url: render(sources[i].url, templateData), // render allows args in definition
+      method: render(sources[i].method, templateData),
+      data: (sources[i].body ? JSON.parse(render(sources[i].body, templateData)) : null) // can't render if null
     })
     console.log(response)
     data[sources[i].name] = response.data
@@ -128,7 +130,6 @@ exports.handler = async (event, context) => {
     }
 
   // get the config for the command
-    console.log('performing query')
     const response = await getConfig(args)
     config = response.getBot.commands.items[0] // use first result
 
@@ -137,7 +138,7 @@ exports.handler = async (event, context) => {
     }
     // command arguments
     if(config.sources && config.sources.items){
-      templateData.sources = await fetchSources(config.sources.items, args)
+      templateData.sources = await fetchSources(config.sources.items, templateData)
     }
 
     // render template
