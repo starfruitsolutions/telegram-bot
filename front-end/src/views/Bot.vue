@@ -1,11 +1,11 @@
 <template>
   <div v-if="bot">
-    <v-btn to="/">Back</v-btn>
+    <v-btn to="/" class="my-5">Go Back To Bots</v-btn>
     <h1>Bot: {{ bot.name }} </h1>
     <h4 class="mb-5">ID: {{ bot.id }}</h4>
     <bot :bot="bot"/>
     <h2 class="my-5">Commands</h2>
-    <v-btn @click="addVisible = !addVisible"> Add command</v-btn>
+    <v-btn @click="addVisible = !addVisible" color="primary" class="my-5"> {{ addVisible ? 'Done' : 'Create Command' }}</v-btn>
     <command v-if="addVisible" :bot="bot"/>
     <v-expansion-panels accordion>
       <v-expansion-panel
@@ -20,6 +20,7 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
+    <v-btn to="/" class="my-5">Go Back To Bots</v-btn>
   </div>
 </template>
 

@@ -76,8 +76,9 @@
           <v-btn
             type="submit"
             class="mt-3 mb-6"
+            color="primary"
           >
-            Save
+            {{ form.id ? 'Save' : 'Create' }}
           </v-btn>
           <v-spacer/>
           <v-btn

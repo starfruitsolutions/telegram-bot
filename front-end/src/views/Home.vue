@@ -1,6 +1,7 @@
 <template>
   <div>
-    <bot/>
+    <v-btn @click="addVisible = !addVisible" color="primary" class="my-5"> {{ addVisible ? 'Close' : 'Create Bot' }}</v-btn>
+    <bot v-if="addVisible"/>
     <Card v-for="bot in bots" :key="bot.id">
       <h3>{{ bot.name }}</h3>
       <p>{{ bot.description }}</p>
@@ -20,7 +21,8 @@
     data () {
       return {
         bots: [],
-        subscription: null
+        subscription: null,
+        addVisible: false
       }
     },
     components: {
