@@ -74,6 +74,10 @@
         error: error => console.warn(error)
       })
     },
+    unmounted(){
+      this.updateCommandSubscription.unsubscribe()
+      this.deleteCommandSubscription.unsubscribe()
+    }
   }
 
 </script>

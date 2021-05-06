@@ -72,10 +72,9 @@
         />
       </template>
       <v-col>
-        <v-row>
+        <v-row class="mt-2 mb-6">
           <v-btn
             type="submit"
-            class="mt-3 mb-6"
             color="primary"
           >
             {{ form.id ? 'Save' : 'Create' }}
@@ -85,7 +84,6 @@
             v-if="form.id"
             color="red"
             dark
-            class="mt-3 mb-6"
             @click="deleteCommand"
           >
             Delete
@@ -175,7 +173,6 @@
         }
       },
       async getCommand() {
-        console.log(this.form)
         const command = await API.graphql({
           query: getCommand,
           variables: { id: this.form.id }
@@ -207,6 +204,10 @@
       if(this.command.id){
         this.getCommand()
       }
+    },
+    unmounted(){
+      this.createSubscription.unsubscribe()
+      this.deleteSubscription.unsubscribe()
     }
   }
 

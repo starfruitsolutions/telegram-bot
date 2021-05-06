@@ -3,13 +3,18 @@
     <v-btn @click="addVisible = !addVisible" color="primary" class="my-5"> {{ addVisible ? 'Close' : 'Create Bot' }}</v-btn>
     <bot v-if="addVisible"/>
     <Card v-for="bot in bots" :key="bot.id">
-      <h3>{{ bot.name }}</h3>
-      <p>{{ bot.description }}</p>
       <v-col>
-        <v-row>
+        <v-row align="baseline">
+        <h1>{{ bot.name }} </h1>
+        <v-spacer/>
+        <h3>{{ bot.id }}</h3>
+        </v-row>
+      </v-col>
+      <p class="my-5">{{ bot.description }}</p>
+      <v-col>
+        <v-row class="my-5">
           <v-btn
             :to="'bot/' + bot.id"
-            class="my-5 "
           >
             Edit
           </v-btn>
@@ -17,7 +22,6 @@
           <v-btn
             color="red"
             dark
-            class="my-5"
             @click="deleteBot(bot.id)"
           >
             Delete
@@ -78,6 +82,9 @@
         error: error => console.warn(error)
       })
     },
+    unmounted(){
+      this.subscription.unsubscribe()
+    }
 
   }
 
