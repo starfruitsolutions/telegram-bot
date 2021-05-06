@@ -6,6 +6,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@crft/appsync-gateway": "^2.0.0",
+    "@jvitela/mustache-wax": "^1.0.3",
     "axios": "^0.21.1",
     "graphql-tag": "^2.12.4",
     "mustache": "^4.2.0"
