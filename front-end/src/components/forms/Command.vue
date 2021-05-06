@@ -97,7 +97,7 @@
 
 <script>
   import { API, graphqlOperation } from 'aws-amplify'
-  import {onCreateSource} from '@/graphql/subscriptions'
+  import {onCreateSource, onDeleteSource} from '@/graphql/subscriptions'
   import { createCommand, updateCommand, deleteCommand} from '@/graphql/mutations'
   import { getCommand} from '@/graphql/queries'
   import Sources from "@/components/forms/Sources"
@@ -173,20 +173,30 @@
           })
         }
       },
-      async getCommand(id) {
+      async getCommand() {
+        console.log(this.form)
         const command = await API.graphql({
           query: getCommand,
-          variables: { id: id }
+          variables: { id: this.form.id }
         })
         this.form = command.data.getCommand
       },
     },
     created() {
-      this.subscription = API.graphql(
+      this.createSubscription = API.graphql(
         graphqlOperation(onCreateSource)
       ).subscribe({
         next: () => {
-          this.getCommand(this.command.id)
+          this.getCommand()
+        },
+        error: error => console.warn(error)
+      })
+
+      this.deleteSubscription = API.graphql(
+        graphqlOperation(onDeleteSource)
+      ).subscribe({
+        next: () => {
+          this.getCommand()
         },
         error: error => console.warn(error)
       })
@@ -194,7 +204,7 @@
     mounted() {
       this.form = this.command
       if(this.command.id){
-        this.getCommand(this.command.id)
+        this.getCommand()
       }
     }
   }

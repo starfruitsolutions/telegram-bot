@@ -25,7 +25,7 @@
 
 <script>
   import { API, graphqlOperation } from 'aws-amplify'
-  import {onUpdateBot, onDeleteCommand} from '@/graphql/subscriptions'
+  import {onUpdateCommand, onDeleteCommand} from '@/graphql/subscriptions'
   import { getBot } from '@/graphql/queries'
 
   import bot from "@/components/forms/Bot"
@@ -46,27 +46,27 @@
 
     },
     methods: {
-      async getBot(id) {
+      async getBot() {
         console.log('reloading bot')
         const bot = await API.graphql({
           query: getBot,
-          variables: { id: id }
+          variables: { id: this.$route.params.id }
         })
         this.bot = bot.data.getBot
 
       },
     },
     async created() {
-      this.getBot(this.$route.params.id)
+      this.getBot()
 
-      this.botSubscription = API.graphql(
-        graphqlOperation(onUpdateBot)
+      this.updateCommandSubscription = API.graphql(
+        graphqlOperation(onUpdateCommand)
       ).subscribe({
         next: () => this.getBot(),
         error: error => console.warn(error)
       })
 
-      this.commandSubscription = API.graphql(
+      this.deleteCommandSubscription = API.graphql(
         graphqlOperation(onDeleteCommand)
       ).subscribe({
         next: () => this.getBot(),
