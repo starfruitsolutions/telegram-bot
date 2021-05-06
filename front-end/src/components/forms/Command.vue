@@ -11,7 +11,7 @@
         label="Name"
         prepend-icon="fa-robot"
       />
-      <sources :command="form"/>
+      <sources v-if="form.id" :command="form"/>
       <h4 class="my-5">Template</h4>
       <v-textarea
         v-model="form.template"
