@@ -5,15 +5,34 @@
     <Card v-for="bot in bots" :key="bot.id">
       <h3>{{ bot.name }}</h3>
       <p>{{ bot.description }}</p>
-      <v-btn :to="'bot/' + bot.id">Edit</v-btn>
+      <v-col>
+        <v-row>
+          <v-btn
+            :to="'bot/' + bot.id"
+            class="my-5 "
+          >
+            Edit
+          </v-btn>
+          <v-spacer/>
+          <v-btn
+            color="red"
+            dark
+            class="my-5"
+            @click="deleteBot(bot.id)"
+          >
+            Delete
+          </v-btn>
+        </v-row>
+      </v-col>
     </Card>
   </div>
 </template>
 
 <script>
   import { API, graphqlOperation } from 'aws-amplify'
-  import {onCreateBot} from '@/graphql/subscriptions'
   import { listBots } from '@/graphql/queries'
+  import { onCreateBot } from '@/graphql/subscriptions'
+  import { deleteBot } from '@/graphql/mutations'
   import bot from "@/components/forms/Bot"
 
   export default {
@@ -34,7 +53,19 @@
           query: listBots
         })
         this.bots = bots.data.listBots.items
-      }
+      },
+      async deleteBot (id) {
+        let confirmation = confirm('Are you sure you want to delete this?')
+        if (confirmation) {
+          await API.graphql({
+            query: deleteBot,
+            variables: {
+              input: {id: id}
+            }
+          })
+          this.getBots()
+        }
+      },
     },
     async created() {
       this.getBots()
