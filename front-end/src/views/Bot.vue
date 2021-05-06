@@ -5,7 +5,7 @@
     <h4 class="mb-5">ID: {{ bot.id }}</h4>
     <bot :bot="bot"/>
     <h2 class="my-5">Commands</h2>
-    <v-btn @click="addVisible = !addVisible" color="primary" class="my-5"> {{ addVisible ? 'Done' : 'Create Command' }}</v-btn>
+    <v-btn @click="addButton" color="primary" class="my-5"> {{ addVisible ? 'Done' : 'Create Command' }}</v-btn>
     <command v-if="addVisible" :bot="bot"/>
     <v-expansion-panels accordion>
       <v-expansion-panel
@@ -47,6 +47,13 @@
 
     },
     methods: {
+      addButton() {
+        // reload bot on close
+        if(this.addVisible){
+          this.getBot()
+        }
+        this.addVisible = !this.addVisible
+      },
       async getBot() {
         console.log('reloading bot')
         const bot = await API.graphql({

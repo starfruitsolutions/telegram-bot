@@ -1,7 +1,6 @@
 <template>
   <v-card
     :class="{ 'mb-5': margins}"
-    color="white"
     class="card elevation-3"
   >
     <p :class="{ 'pa-10': padding}">
