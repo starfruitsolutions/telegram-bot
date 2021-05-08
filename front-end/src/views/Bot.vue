@@ -6,7 +6,7 @@
     <bot :bot="bot" class="mb-15"/>
     <h1>Commands</h1>
     <command :bot="bot" class="pa-5"/>
-    <v-expansion-panels accordion>
+    <v-expansion-panels accordion focusable>
       <v-expansion-panel
         v-for="command in bot.commands.items"
         :key="command.id"
