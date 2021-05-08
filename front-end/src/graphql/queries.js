@@ -95,7 +95,6 @@ export const getCommand = /* GraphQL */ `
       sources {
         items {
           id
-          name
           method
           url
           body
@@ -111,7 +110,6 @@ export const getSource = /* GraphQL */ `
   query GetSource($id: ID!) {
     getSource(id: $id) {
       id
-      name
       method
       url
       body
@@ -147,7 +145,6 @@ export const listSources = /* GraphQL */ `
     listSources(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        name
         method
         url
         body

@@ -89,7 +89,6 @@ export const onCreateCommand = /* GraphQL */ `
       sources {
         items {
           id
-          name
           method
           url
           body
@@ -123,7 +122,6 @@ export const onUpdateCommand = /* GraphQL */ `
       sources {
         items {
           id
-          name
           method
           url
           body
@@ -157,7 +155,6 @@ export const onDeleteCommand = /* GraphQL */ `
       sources {
         items {
           id
-          name
           method
           url
           body
@@ -173,7 +170,6 @@ export const onCreateSource = /* GraphQL */ `
   subscription OnCreateSource {
     onCreateSource {
       id
-      name
       method
       url
       body
@@ -204,7 +200,6 @@ export const onUpdateSource = /* GraphQL */ `
   subscription OnUpdateSource {
     onUpdateSource {
       id
-      name
       method
       url
       body
@@ -235,7 +230,6 @@ export const onDeleteSource = /* GraphQL */ `
   subscription OnDeleteSource {
     onDeleteSource {
       id
-      name
       method
       url
       body

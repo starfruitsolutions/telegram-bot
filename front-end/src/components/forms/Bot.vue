@@ -22,7 +22,9 @@
       />
       <v-btn
         :disabled="!valid"
+        :loading="loading"
         type="submit"
+        color="primary"
         class="mt-3 mb-6"
       >
         Save
@@ -48,17 +50,20 @@
           name: null,
           description: null
         },
+        loading: false,
         valid: false
       }
     },
     methods: {
       async submit () {
+        this.loading = true
         if (this.bot) {
-          this.update()
+          await this.update()
         }
         else {
-          this.create()
+          await this.create()
         }
+        this.loading = false
       },
       async create () {
         await API.graphql({

@@ -3,10 +3,9 @@
     <v-btn to="/" class="my-5">Go Back To Bots</v-btn>
     <h1>Bot: {{ bot.name }} </h1>
     <h4 class="mb-5">ID: {{ bot.id }}</h4>
-    <bot :bot="bot"/>
-    <h2 class="my-5">Commands</h2>
-    <v-btn @click="addButton" color="primary" class="my-5"> {{ addVisible ? 'Done' : 'Create Command' }}</v-btn>
-    <command v-if="addVisible" :bot="bot"/>
+    <bot :bot="bot" class="mb-15"/>
+    <h1>Commands</h1>
+    <command :bot="bot" class="pa-5"/>
     <v-expansion-panels accordion>
       <v-expansion-panel
         v-for="command in bot.commands.items"
@@ -26,7 +25,7 @@
 
 <script>
   import { API, graphqlOperation } from 'aws-amplify'
-  import {onUpdateCommand, onDeleteCommand} from '@/graphql/subscriptions'
+  import {onCreateCommand, onUpdateCommand, onDeleteCommand} from '@/graphql/subscriptions'
   import { getBot } from '@/graphql/queries'
 
   import bot from "@/components/forms/Bot"
@@ -37,8 +36,7 @@
     data () {
       return {
         bot: null,
-        commands: [],
-        addVisible: false
+        commands: []
       }
     },
     components: {
@@ -47,22 +45,13 @@
 
     },
     methods: {
-      addButton() {
-        // reload bot on close
-        if(this.addVisible){
-          this.getBot()
-        }
-        this.addVisible = !this.addVisible
-      },
       async getBot() {
-        console.log('reloading bot')
         const bot = await API.graphql({
           query: getBot,
           variables: { id: this.$route.params.id }
         })
 
         // sort the Commands alphabetically
-        console.log(bot.data.getBot)
         bot.data.getBot.commands.items.sort((a, b) => {
           if(a.name < b.name) { return -1 }
           if(a.name > b.name) { return 1 }
@@ -76,6 +65,13 @@
     },
     async created() {
       this.getBot()
+
+      this.createCommandSubscription = API.graphql(
+        graphqlOperation(onCreateCommand)
+      ).subscribe({
+        next: () => this.getBot(),
+        error: error => console.warn(error)
+      })
 
       this.updateCommandSubscription = API.graphql(
         graphqlOperation(onUpdateCommand)
@@ -92,6 +88,7 @@
       })
     },
     unmounted(){
+      this.createCommandSubscription.unsubscribe()
       this.updateCommandSubscription.unsubscribe()
       this.deleteCommandSubscription.unsubscribe()
     }

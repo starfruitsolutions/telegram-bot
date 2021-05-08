@@ -101,7 +101,6 @@ export const createCommand = /* GraphQL */ `
       sources {
         items {
           id
-          name
           method
           url
           body
@@ -138,7 +137,6 @@ export const updateCommand = /* GraphQL */ `
       sources {
         items {
           id
-          name
           method
           url
           body
@@ -175,7 +173,6 @@ export const deleteCommand = /* GraphQL */ `
       sources {
         items {
           id
-          name
           method
           url
           body
@@ -194,7 +191,6 @@ export const createSource = /* GraphQL */ `
   ) {
     createSource(input: $input, condition: $condition) {
       id
-      name
       method
       url
       body
@@ -228,7 +224,6 @@ export const updateSource = /* GraphQL */ `
   ) {
     updateSource(input: $input, condition: $condition) {
       id
-      name
       method
       url
       body
@@ -262,7 +257,6 @@ export const deleteSource = /* GraphQL */ `
   ) {
     deleteSource(input: $input, condition: $condition) {
       id
-      name
       method
       url
       body

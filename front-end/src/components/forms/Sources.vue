@@ -15,18 +15,19 @@
         v-model="editedItem.name"
         :rules="[validationRules.required]"
         label="Name"
-        prepend-icon="fa-robot"
+        prepend-icon="fa-crosshairs"
       />
-      <v-text-field
+      <v-select
         v-model="editedItem.method"
         :rules="[validationRules.required]"
+        :items="methods"
         label="Method"
-        prepend-icon="fa-robot"
+        prepend-icon="fa-code"
       />
       <v-text-field
         v-model="editedItem.url"
         label="URL"
-        prepend-icon="fa-file-alt"
+        prepend-icon="fa-globe"
       />
       <v-textarea
         v-model="editedItem.body"
@@ -82,7 +83,8 @@
       return {
         editedIndex: -1,
         editedItem: {},
-        dialog: false
+        dialog: false,
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
       }
     },
     methods: {
