@@ -16,20 +16,16 @@
       </v-card-text>
 
       <v-card-actions class="px-10 pb-10">
-        <v-spacer/>
         <v-btn
           v-if="okVisible"
-          color="deep-purple"
-          dark
-          large
+          color="primary"
           @click="ok"
         >
           {{ okText }}
         </v-btn>
+        <v-spacer/>
         <v-btn
           v-if="cancelVisible"
-          large
-          color="white"
           @click="cancel"
         >
           Cancel

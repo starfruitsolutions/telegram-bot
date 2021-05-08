@@ -9,6 +9,7 @@
         v-model="form.name"
         :rules="[validationRules.required]"
         label="Name"
+        hint="Don't forget the '/' for standard commands"
         prepend-icon="fa-robot"
       />
       <template v-if="form.id">
@@ -148,6 +149,7 @@
           }
         })
         this.form = command.data.createCommand
+        this.$refs.form.reset()
       },
       async update () {
         await API.graphql({
@@ -178,6 +180,7 @@
           variables: { id: this.form.id }
         })
         this.form = command.data.getCommand
+        this.$refs.form.reset()
       },
     },
     created() {
@@ -204,6 +207,7 @@
       if(this.command.id){
         this.getCommand()
       }
+      this.$refs.form.reset()
     },
     unmounted(){
       this.createSubscription.unsubscribe()

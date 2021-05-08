@@ -60,6 +60,16 @@
           query: getBot,
           variables: { id: this.$route.params.id }
         })
+
+        // sort the Commands alphabetically
+        console.log(bot.data.getBot)
+        bot.data.getBot.commands.items.sort((a, b) => {
+          if(a.name < b.name) { return -1 }
+          if(a.name > b.name) { return 1 }
+          return 0
+        })
+
+        // assign it
         this.bot = bot.data.getBot
 
       },
