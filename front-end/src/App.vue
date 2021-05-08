@@ -5,11 +5,11 @@
       color="primary"
       dark
     >
-      <a to="/" class="white--text d-flex align-center">
-        <h1 class="ml-2">
+      <router-link to="/" class="white--text d-flex align-center" style="text-decoration: none;">
+        <h1 to="/" class="ml-10">
           Euler.tools Bots
         </h1>
-      </a>
+      </router-link>
 
       <v-spacer></v-spacer>
       <div v-if="user">
