@@ -1,0 +1,35 @@
+{
+    "paths": [
+        {
+            "name": "/",
+            "lambdaFunction": "announcementHook",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/"
+        }
+    ],
+    "resourceName": "announcementHook",
+    "apiName": "announcementHook",
+    "functionArns": [
+        {
+            "lambdaFunction": "announcementHook"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-bot-bot-183515-authRole",
+        "unAuthRoleName": "amplify-bot-bot-183515-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "announcementHook",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}
