@@ -27,7 +27,7 @@
         }
       }
     },
-    "testBotWebhook": {
+    "telegramBotHooks": {
       "service": "API Gateway",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
@@ -38,13 +38,7 @@
             "Name",
             "Arn"
           ]
-        }
-      ]
-    },
-    "announcementHook": {
-      "service": "API Gateway",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [
+        },
         {
           "category": "function",
           "resourceName": "announcementHook",

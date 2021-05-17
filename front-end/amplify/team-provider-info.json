@@ -40,7 +40,7 @@
         },
         "announcementHook": {
           "deploymentBucketName": "amplify-bot-bot-183515-deployment",
-          "s3Key": "amplify-builds/announcementHook-726e6f766c4f4563786a-build.zip"
+          "s3Key": "amplify-builds/announcementHook-7a747a70704965415961-build.zip"
         }
       },
       "hosting": {

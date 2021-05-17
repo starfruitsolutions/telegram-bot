@@ -30,12 +30,20 @@ exports.handler = async (event, context) => {
     const body = JSON.parse(event.body)
     console.log(body)
 
+    // temp auth
+    if(body.token != TELEGRAM_TOKEN){
+      return {
+          statusCode: 500,
+          body: JSON.stringify("not authorized")
+      }
+    }
+
     await sendMessage(body.channel, body.message)
   }
   catch(error) {
     return {
         statusCode: 500,
-        body: JSON.stringify(error),
+        body: JSON.stringify(error)
     }
   }
 

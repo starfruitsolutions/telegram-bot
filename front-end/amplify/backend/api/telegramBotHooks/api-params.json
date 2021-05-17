@@ -1,17 +1,28 @@
 {
     "paths": [
         {
-            "name": "/",
+            "name": "/update",
+            "lambdaFunction": "testBotWebhook",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/update"
+        },
+        {
+            "name": "/announce",
             "lambdaFunction": "announcementHook",
             "privacy": {
                 "open": true
             },
-            "policyResourceName": "/"
+            "policyResourceName": "/announce"
         }
     ],
-    "resourceName": "announcementHook",
-    "apiName": "announcementHook",
+    "resourceName": "telegramBotHooks",
+    "apiName": "telegramBotHooks",
     "functionArns": [
+        {
+            "lambdaFunction": "testBotWebhook"
+        },
         {
             "lambdaFunction": "announcementHook"
         }
@@ -23,6 +34,14 @@
         "unAuthRoleName": "amplify-bot-bot-183515-unauthRole"
     },
     "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "testBotWebhook",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        },
         {
             "category": "function",
             "resourceName": "announcementHook",
