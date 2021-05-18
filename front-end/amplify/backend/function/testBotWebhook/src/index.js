@@ -74,13 +74,13 @@ function render(template, data){
  **********************/
 function parseCommand(message) {
  console.log('parse command')
- // if it's not properly formed stop
+ // if it's not a command stop
  if(!message.entities || message.entities[0].type != 'bot_command' || message.entities[0].offset != '0'){
-   console.log('malformed command')
+   console.log('not a command')
    return false
  }
- var args = message.text.split(/\s+/)
- args[0] = args[0].split('@')[0] // tosses @user
+
+ var args = message.text.match(/^.*?(?=[@\s])|(?<=\s').+?(?='(?:\s|$))|(?<=\s").+?(?="(?:\s|$))|(?<=\s)[^"'\s]+/g)
 
  return args
 }
