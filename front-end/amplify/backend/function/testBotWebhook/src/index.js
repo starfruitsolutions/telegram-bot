@@ -155,7 +155,11 @@ exports.handler = async (event, context) => {
     config = response.getBot.commands.items[0] // use first result
 
     var templateData = {
-      args
+      args,
+      user: {
+        id: message.from.id,
+        name: `${message.from.first_name} ${message.from.last_name}`
+      }
     }
     // command arguments
     if(config.sources && config.sources.items){
