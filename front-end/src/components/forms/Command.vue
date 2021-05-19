@@ -9,6 +9,7 @@
         <v-row align="center">
           <v-text-field
             v-model="form.name"
+            @keyup="form.name = form.name.toLowerCase()"
             :rules="[validationRules.required]"
             label="Command"
             hint="Don't forget the '/' for standard commands"

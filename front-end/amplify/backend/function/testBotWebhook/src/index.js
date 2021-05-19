@@ -80,7 +80,7 @@ function parseCommand(message) {
    return false
  }
 
- var args = message.text.match(/^.*?(?=[@\s])|(?<=\s').+?(?='(?:\s|$))|(?<=\s").+?(?="(?:\s|$))|(?<=\s)[^"'\s]+/g)
+ var args = message.text.match(/^.*?(?=[@\s]|$)|(?<=\s').+?(?='(?:\s|$))|(?<=\s").+?(?="(?:\s|$))|(?<=\s)[^"'\s]+/g)
 
  return args
 }
@@ -92,7 +92,7 @@ async function getConfig(args){
    query: getCommand,
    variables: {
      bot: BOT_ID,
-     name: args[0] // first arg is command
+     name: args[0].toLowerCase() // first arg is command always lowercase
    }
  })
 }
