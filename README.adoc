@@ -17,18 +17,18 @@ The Bot ID will be shown on the home page or bot configuration page
 
 ## Connect telegram to webhook:
 ### Webhook URL:
-  ```
-  https://<AWS SUBDOMAIN>.execute-api.us-east-1.amazonaws.com/bot/<TELEGRAM BOT TOKEN>/update/<BOT CONFIGURATION ID>
-  ```
+```
+https://<AWS SUBDOMAIN>.execute-api.us-east-1.amazonaws.com/bot/<TELEGRAM BOT TOKEN>/update/<BOT CONFIGURATION ID>
+```
 
 ### Register webhook with telegram
-  ```
-    curl --request POST 'https://api.telegram.org/bot<TELEGRAM_TOKEN>/setWebhook' \
-    --header 'content-type: application/json' \
-    --data '{
-      "url": "<WEBHOOK_URL>"
-    }'
-  ```
+```
+  curl --request POST 'https://api.telegram.org/bot<TELEGRAM_TOKEN>/setWebhook' \
+  --header 'content-type: application/json' \
+  --data '{
+    "url": "<WEBHOOK_URL>"
+  }'
+```
 
 ## Configure the bot
 Create commands in the front end editor for the bot. Further documentation can be found there.
