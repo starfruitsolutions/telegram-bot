@@ -6,13 +6,7 @@
 Amplify Params - DO NOT EDIT */
 const axios = require('axios')
 var Mustache = require('mustache')
-const Wax = require('@jvitela/mustache-wax');
-
-/**********************
- * environment constants *
- **********************/
-const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN
-const BOT_ID = process.env.BOT_ID
+const Wax = require('@jvitela/mustache-wax')
 
 /**********************
  * graphql *
@@ -85,13 +79,13 @@ function parseCommand(message) {
  return args
 }
 
-async function getConfig(args){
+async function getConfig(botID, args){
  console.log('performing query')
  return gateway.runQuery({
    operationName: 'getCommand',
    query: getCommand,
    variables: {
-     bot: BOT_ID,
+     bot: botID,
      name: args[0].toLowerCase() // first arg is command always lowercase
    }
  })
@@ -115,9 +109,9 @@ async function fetchSources(sources, templateData){
  return data
 }
 
-function sendMessage(chat_id, text) {
+function sendMessage(botKey, chat_id, text) {
   return axios({
-    url: `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`,
+    url: `https://api.telegram.org/bot${botKey}/sendMessage`,
     method: 'POST',
     data: {
       chat_id,
@@ -151,15 +145,12 @@ exports.handler = async (event, context) => {
     }
 
   // get the config for the command
-    const response = await getConfig(args)
+    const response = await getConfig(event.pathParameters.botID, args)
     config = response.getBot.commands.items[0] // use first result
 
     var templateData = {
       args,
-      user: {
-        id: message.from.id,
-        name: `${message.from.first_name} ${message.from.last_name}`
-      }
+      message
     }
     // command arguments
     if(config.sources && config.sources.items){
@@ -173,7 +164,7 @@ exports.handler = async (event, context) => {
 
     //send the message
     console.log('Sending message')
-    await sendMessage(message.chat.id, toSend)
+    await sendMessage(event.pathParameters.botKey, message.chat.id, toSend)
   }
   catch(error) {
     console.log(error)

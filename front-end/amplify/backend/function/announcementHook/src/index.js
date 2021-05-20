@@ -9,15 +9,15 @@ const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN
  * process *
  **********************/
 
-function sendMessage(chat_id, text) {
-  return axios({
-    url: `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`,
-    method: 'POST',
-    data: {
-      chat_id,
-      text
-    }
-  })
+function sendMessage(botKey, chat_id, text) {
+ return axios({
+   url: `https://api.telegram.org/bot${botKey}/sendMessage`,
+   method: 'POST',
+   data: {
+     chat_id,
+     text
+   }
+ })
 }
 
 /**********************
@@ -30,20 +30,12 @@ exports.handler = async (event, context) => {
     const body = JSON.parse(event.body)
     console.log(body)
 
-    // temp auth
-    if(body.token != TELEGRAM_TOKEN){
-      return {
-          statusCode: 500,
-          body: JSON.stringify("not authorized")
-      }
-    }
-
-    await sendMessage(body.channel, body.message)
+    await sendMessage(event.pathParameters.botKey, body.channel, body.message)
   }
   catch(error) {
     return {
         statusCode: 500,
-        body: JSON.stringify(error)
+        body: JSON.stringify("Message failed")
     }
   }
 

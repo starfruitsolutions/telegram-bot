@@ -106,7 +106,7 @@
             ],
             "paths": {
               
-              "/update": {
+              "/{botKey}/update/{botID}": {
                 "options": {
                   "consumes": [
                     "application/json"
@@ -205,7 +205,7 @@
                   }
                 }
               },
-              "/update/{proxy+}": {
+              "/{botKey}/update/{botID}/{proxy+}": {
                 "options": {
                   "consumes": [
                     "application/json"
@@ -305,7 +305,7 @@
                 }
               },   
               
-              "/announce": {
+              "/{botKey}/announce": {
                 "options": {
                   "consumes": [
                     "application/json"
@@ -404,7 +404,7 @@
                   }
                 }
               },
-              "/announce/{proxy+}": {
+              "/{botKey}/announce/{proxy+}": {
                 "options": {
                   "consumes": [
                     "application/json"
@@ -616,7 +616,7 @@
         
         
         
-      "DeploymentAPIGWtelegramBotHooks": {
+      "DeploymentAPIGWtelegramBotHooks2fbc85bf": {
         "Type": "AWS::ApiGateway::Deployment",
         "Properties": {
           "Description": "The Development stage deployment of your API.",

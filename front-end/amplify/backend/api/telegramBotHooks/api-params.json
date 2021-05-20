@@ -1,20 +1,20 @@
 {
     "paths": [
         {
-            "name": "/update",
+            "name": "/{botKey}/update/{botID}",
             "lambdaFunction": "testBotWebhook",
             "privacy": {
                 "open": true
             },
-            "policyResourceName": "/update"
+            "policyResourceName": "/*/update/*"
         },
         {
-            "name": "/announce",
+            "name": "/{botKey}/announce",
             "lambdaFunction": "announcementHook",
             "privacy": {
                 "open": true
             },
-            "policyResourceName": "/announce"
+            "policyResourceName": "/*/announce"
         }
     ],
     "resourceName": "telegramBotHooks",
@@ -50,5 +50,6 @@
                 "Arn"
             ]
         }
-    ]
+    ],
+    "uuid": "2fbc85bf"
 }
