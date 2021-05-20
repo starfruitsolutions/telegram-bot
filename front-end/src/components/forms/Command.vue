@@ -74,6 +74,8 @@
                     <pre>{{ args.[index] }}</pre>
                     starting with the command itself at:
                     <pre>{{ args.0 }}</pre>
+                    The <a href="https://core.telegram.org/bots/api#update" target="_blank">message</a> from the telegram update can be accessed at:
+                    <pre>{{ message.[field]... }}</pre>
                     Data sources can be referenced by their assigned name.
                     <pre>{{ sources.[name] }}</pre><br>
                   </p>
@@ -93,6 +95,7 @@
                   <h4> Additional Documentation </h4>
                   <br>
                   <p>
+                    Bot documentation:  <a href="https://core.telegram.org/bots/api" target="_blank">Telegram Bot API</a><br>
                     Templating documentation: <a href="https://github.com/janl/mustache.js" target="_blank">moustache.js Github</a><br>
                     Formatter documentation: <a href="http://jvitela.github.io/mustache-wax/" target="_blank">moustache-wax</a>
                   </p>
