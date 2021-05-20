@@ -11,9 +11,41 @@ Euler Tools
 This bot will start out with telegram, but may expand to allow for e-mail
 subscription requests for newsletters, price updates, and reports.
 
-## Proposed Commands
+# Operation
+## Create a bot using the front-end editor
+The Bot ID will be shown on the home page or bot configuration page
 
-### Live request triggers community
+## Connect telegram to webhook:
+- Webhook URL:
+  ```
+  https://<AWS SUBDOMAIN>.execute-api.us-east-1.amazonaws.com/bot/<TELEGRAM BOT TOKEN>/update/<BOT CONFIGURATION ID>
+  ```
+- Register webhook with telegram
+  ```bash
+    curl --request POST 'https://api.telegram.org/bot<TELEGRAM_TOKEN>/setWebhook' \
+    --header 'content-type: application/json' \
+    --data '{
+      "url": "<WEBHOOK_URL>"
+    }'
+  ```
+## Configure the bot
+Create commands in the front end editor for the bot. Further documentation can be found there.
+
+## Announcements
+You can send messages to any user or channel using the announce endpoint.
+```
+curl --request POST 'https://<AWS SUBDOMAIN>.execute-api.us-east-1.amazonaws.com/bot/<TELEGRAM BOT TOKEN>/announce' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "channel": "@<CHANNEL OR USER NAME>",
+  "message": "<MESSAGE TO SEND>"
+}'
+```
+For channels, the bot must be in the channel. For users the user must have previously sent /start to the bot.
+
+# Proposed Commands
+
+## Live request triggers community
 
 * `/price` gets a pair price
 * `/pool` gets the pool information
@@ -23,14 +55,14 @@ subscription requests for newsletters, price updates, and reports.
    report also bans the author from all channels with our bot. User will receive
    a message in which they can open a support ticket to remove the ban.
 
-### Announcement and Subscript Functionality
+## Announcement and Subscript Functionality
 
 * `/subscribe` can suscribe to a pair and start receiving price notifications
 * `/alerts` can subscribe to a pair and receive alerts, like liquidity draining
 * `/remind` sends periodic messages to the channel
 * `/twitter` can subscribe to a twitter user and share his tweets (good to gain RT)
 
-## Development
+# Development
 
 As we know what is needed to build the commands, we will write that in Postman
 so the platform team can get those connections done. Meaning, the API's will be
@@ -74,17 +106,7 @@ ticket, you would have the following pattern:
 
 include::./front-end/README.md[offset=+1]
 
-# Operation
-
-## Connect telegram to webhook:
-- Add TELEGRAM_TOKEN to Lambda environmental Variable
-- Add BOT_ID, found in the configuration app, to a Lambda environmental Variable
-- Register webhook with telegram
-  ```bash
-    curl --request POST --url https://api.telegram.org/bot<TELEGRAM_TOKEN>/setWebhook --header 'content-type: application/json' --data '{"url": "<WEBHOOK_URL>"}'
-  ```
-
-## Copyrights and Licenses
+# Copyrights and Licenses
 
 This document is {copyright} {author}.
 
