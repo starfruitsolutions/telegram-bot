@@ -80,6 +80,32 @@ npm run lint
 
 See link:https://cli.vuejs.org/config/[Configuration Reference].
 
+### Amplify
+
+#### status
+
+```
+amplify status
+```
+
+#### Push Backend
+
+```
+amplify push
+```
+
+#### Build and Deploy Frontend
+
+```
+amplify publish
+```
+
+#### Modify a Backend Resource
+
+```
+amplify [create|update|remove] [resource type]
+```
+
 ### Jira integration
 
 To help with connecting branches and pull pull requests in Jira, the following
