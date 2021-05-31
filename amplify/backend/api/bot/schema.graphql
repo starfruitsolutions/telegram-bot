@@ -1,0 +1,42 @@
+type Bot
+  @model
+  @auth(rules: [
+    {allow: private, provider: iam, operations: [read]},
+    {allow: private, provider: userPools, operations: [read, create, delete, update]}
+  ])
+{
+  id: ID!
+  name: String
+  description: String
+  commands: [Command] @connection(name: "BotCommands")
+}
+
+type Command
+  @model
+  @auth(rules: [
+    {allow: private, provider: iam, operations: [read]},
+    {allow: private, provider: userPools, operations: [read, create, delete, update]}
+  ])
+{
+  id: ID!
+  bot: Bot @connection(name: "BotCommands")
+  name: String!
+  arguments: String
+  sources: [Source] @connection(name: "CommandSources")
+  template: String
+}
+
+type Source
+  @model
+  @auth(rules: [
+    {allow: private, provider: iam, operations: [read]},
+    {allow: private, provider: userPools, operations: [read, create, delete, update]}
+  ])
+{
+  id: ID!
+  command: Command @connection(name: "CommandSources")
+  name: String
+  method: String
+  url: String
+  body: String
+}

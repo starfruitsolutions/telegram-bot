@@ -1,0 +1,55 @@
+{
+    "paths": [
+        {
+            "name": "/{botKey}/announce",
+            "lambdaFunction": "announcementHook",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/*/announce"
+        },
+        {
+            "name": "/{botKey}/update/{botID}",
+            "lambdaFunction": "updateWebhook",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/*/update/*"
+        }
+    ],
+    "resourceName": "telegramBotHooks",
+    "apiName": "telegramBotHooks",
+    "functionArns": [
+        {
+            "lambdaFunction": "announcementHook"
+        },
+        {
+            "lambdaFunction": "updateWebhook"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-bot-bot-183515-authRole",
+        "unAuthRoleName": "amplify-bot-bot-183515-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "announcementHook",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        },
+        {
+            "category": "function",
+            "resourceName": "updateWebhook",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ],
+    "uuid": "e2f450ea"
+}
