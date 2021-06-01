@@ -59,7 +59,7 @@ Mustache.Formatters = {
 }
 
 function render(template, data){
-  console.log('render template')
+  console.log('Template Data:', data)
   return Mustache.render(template, data)
 }
 
@@ -67,10 +67,9 @@ function render(template, data){
  * process *
  **********************/
 function parseCommand(message) {
- console.log('parse command')
  // if it's not a command stop
  if(!message.entities || message.entities[0].type != 'bot_command' || message.entities[0].offset != '0'){
-   console.log('not a command')
+   console.log('No command included')
    return false
  }
 
@@ -80,7 +79,6 @@ function parseCommand(message) {
 }
 
 async function getConfig(botID, args){
- console.log('performing query')
  return gateway.runQuery({
    operationName: 'getCommand',
    query: getCommand,
@@ -92,18 +90,17 @@ async function getConfig(botID, args){
 }
 
 async function fetchSources(sources, templateData){
- console.log('fetching sources')
  var data = {}
 
  for (i = 0; i < sources.length; i++) {
-   console.log(sources[i])
+   console.log('Source:', sources[i])
 
    var response = await axios({
      url: render(sources[i].url, templateData), // render allows args in definition
      method: render(sources[i].method, templateData),
      data: (sources[i].body ? JSON.parse(render(sources[i].body, templateData)) : null) // can't render if null
    })
-   console.log(response)
+   console.log('Response:', response)
    data[sources[i].name] = response.data
  }
  return data
@@ -128,25 +125,24 @@ const exit = {
 }
 
 exports.handler = async (event, context) => {
-  console.log(process.env)
+  console.log('Event:', event)
   try {
-    console.log('parse body')
     const body = JSON.parse(event.body)
-    console.log(body)
+    console.log('Body:', body)
 
-    console.log('get message')
     const message = body.message
-    console.log(message)
+    console.log('Message:', message)
 
     const args = parseCommand(message)
     if (!args){
-      console.log('no valid command')
+      console.log('Command not formatted correctly')
       return exit
     }
 
   // get the config for the command
     const response = await getConfig(event.pathParameters.botID, args)
     config = response.getBot.commands.items[0] // use first result
+    console.log('Config:', config)
 
     var templateData = {
       args,
@@ -158,12 +154,9 @@ exports.handler = async (event, context) => {
     }
 
     // render template
-    console.log('rendering template')
-    console.log(templateData)
     var toSend = render(config.template, templateData)
 
     //send the message
-    console.log('Sending message')
     await sendMessage(event.pathParameters.botKey, message.chat.id, toSend)
   }
   catch(error) {
