@@ -11,7 +11,6 @@
       @ok="save"
       @cancel="close"
     >
-      {{editedItem}}
       <v-text-field
         v-model="editedItem.name"
         :rules="[validationRules.required]"
