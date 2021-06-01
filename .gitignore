@@ -1,6 +1,6 @@
 # Node
 node_modules
-/dist
+dist/
 
 # local env files
 .env.local
@@ -29,3 +29,4 @@ amplify-build-config.json
 amplify-gradle-config.json
 amplifytools.xcconfig
 .secret-*
+team-provider-info.json
