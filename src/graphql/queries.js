@@ -1,6 +1,28 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getBot = /* GraphQL */ `
+  query GetBot($id: ID!) {
+    getBot(id: $id) {
+      id
+      name
+      description
+      createdAt
+      updatedAt
+      commands {
+        items {
+          id
+          name
+          arguments
+          template
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
 export const listBots = /* GraphQL */ `
   query ListBots(
     $filter: ModelBotFilterInput
@@ -22,20 +44,32 @@ export const listBots = /* GraphQL */ `
     }
   }
 `;
-export const getBot = /* GraphQL */ `
-  query GetBot($id: ID!) {
-    getBot(id: $id) {
+export const getCommand = /* GraphQL */ `
+  query GetCommand($id: ID!) {
+    getCommand(id: $id) {
       id
       name
-      description
+      arguments
+      template
       createdAt
       updatedAt
-      commands {
+      bot {
+        id
+        name
+        description
+        createdAt
+        updatedAt
+        commands {
+          nextToken
+        }
+      }
+      sources {
         items {
           id
           name
-          arguments
-          template
+          method
+          url
+          body
           createdAt
           updatedAt
         }
@@ -73,43 +107,11 @@ export const listCommands = /* GraphQL */ `
     }
   }
 `;
-export const getCommand = /* GraphQL */ `
-  query GetCommand($id: ID!) {
-    getCommand(id: $id) {
-      id
-      name
-      arguments
-      template
-      createdAt
-      updatedAt
-      bot {
-        id
-        name
-        description
-        createdAt
-        updatedAt
-        commands {
-          nextToken
-        }
-      }
-      sources {
-        items {
-          id
-          method
-          url
-          body
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-    }
-  }
-`;
 export const getSource = /* GraphQL */ `
   query GetSource($id: ID!) {
     getSource(id: $id) {
       id
+      name
       method
       url
       body
@@ -145,6 +147,7 @@ export const listSources = /* GraphQL */ `
     listSources(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        name
         method
         url
         body
