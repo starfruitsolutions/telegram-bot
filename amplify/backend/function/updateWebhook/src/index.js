@@ -5,8 +5,7 @@
 	REGION
 Amplify Params - DO NOT EDIT */
 const axios = require('axios')
-var Mustache = require('mustache')
-const Wax = require('@jvitela/mustache-wax')
+const ejs = require('ejs')
 
 /**********************
  * graphql *
@@ -42,25 +41,9 @@ const getCommand = `
  /**********************
   * templating *
   **********************/
-Wax(Mustache)
-Mustache.Formatters = {
-  "add": function (one, two) {
-    return Number(one) + Number(two)
-  },
-  "subtract": function (one, two) {
-    return Number(one) - Number(two)
-  },
-  "multiply": function (one, two) {
-    return Number(one) * Number(two)
-  },
-  "divide": function (one, two) {
-    return Number(one) / Number(two)
-  }
-}
-
 function render(template, data){
   console.log('Template Data:', data)
-  return Mustache.render(template, data)
+  return ejs.render(template, data)
 }
 
 /**********************

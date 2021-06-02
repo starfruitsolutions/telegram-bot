@@ -8,6 +8,6 @@
     "@crft/appsync-gateway": "^2.0.0",
     "@jvitela/mustache-wax": "^1.0.3",
     "axios": "^0.21.1",
-    "mustache": "^4.2.0"
+    "ejs": "^3.1.6"
   }
 }
