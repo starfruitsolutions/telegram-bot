@@ -95,7 +95,8 @@ function sendMessage(botKey, chat_id, text) {
     method: 'POST',
     data: {
       chat_id,
-      text
+      text,
+      parse_mode: 'html'
     }
   })
 }
