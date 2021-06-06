@@ -43,11 +43,7 @@
           </v-expansion-panel>
         </v-expansion-panels>
         <h4 class="my-5">Message</h4>
-        <v-textarea
-          v-model="form.template"
-          :rules="[validationRules.required]"
-          outlined
-        />
+        <editor :text="form.template" @update="editorUpdate"/>
         <v-col>
           <v-row class="mt-2 mb-6">
             <v-btn
@@ -77,13 +73,15 @@
   import {onCreateSource, onDeleteSource} from '@/graphql/subscriptions'
   import { createCommand, updateCommand, deleteCommand} from '@/graphql/mutations'
   import { getCommand} from '@/graphql/queries'
-  import sources from "@/components/forms/Sources"
-  import documentation from "@/components/forms/Documentation"
+  import sources from '@/components/forms/Sources'
+  import documentation from '@/components/forms/Documentation'
+  import editor from '@/components/Editor'
 
   export default {
     components: {
       sources,
-      documentation
+      documentation,
+      editor
     },
     props: {
       bot: {
@@ -104,6 +102,7 @@
     data () {
       return {
         form: {},
+        editorText: '',
         loading: false,
         valid: false,
         advancedVisible: false,
@@ -113,6 +112,7 @@
     methods: {
       async submit () {
         this.loading = true
+        this.form.template = this.editorText
         if (this.command.id) {
           await this.update()
         }
@@ -165,6 +165,9 @@
         })
         this.form = command.data.getCommand
       },
+      editorUpdate(text){
+        this.editorText = text
+      }
     },
     created() {
       this.createSubscription = API.graphql(
