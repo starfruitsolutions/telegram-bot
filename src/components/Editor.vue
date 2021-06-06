@@ -7,7 +7,6 @@
         <v-btn @focus="refocus" @click="format('underline')"><v-icon>fa-underline</v-icon></v-btn>
         <v-btn @focus="refocus" @click="format('strikethrough')"><v-icon>fa-strikethrough</v-icon></v-btn>
         <v-btn @focus="refocus" @click="insertLink"><v-icon>fa-link</v-icon></v-btn>
-        <v-btn @focus="refocus" @click="wrap('<code>', '</code>')"><v-icon small>fa-code</v-icon></v-btn>
         <v-btn @focus="refocus" @click="pickerOpen = !pickerOpen"><v-icon>fa-smile</v-icon></v-btn>
         <div>
           <Picker v-if="pickerOpen" @focus="refocus" :data="emojiIndex" set="twitter" @select="insertEmoji" class="floating"/>
@@ -18,9 +17,10 @@
       ref="editor"
       id="editor"
       v-html="html"
+      @keydown.enter.prevent="newline"
       @input="update"
       contenteditable="true"
-      class="pa-5 mt-1"
+      class="pa-5 mt-2"
     />
   </div>
 </template>
@@ -45,7 +45,6 @@
     data () {
       return {
         html: '',
-        output:'',
         pickerOpen: false,
         emojiIndex,
         emojisOutput: ''
@@ -70,12 +69,17 @@
         range.insertNode(node)
         this.placeCursor(text.length-1)
       },
+      newline() {
+        this.insert('\n\r')
+        //document.execCommand("insertHtml", false, '<br>')
+        this.placeCursor(4)
+      },
       insertEmoji(emoji) {
         this.insert(this.emojisOutput + emoji.native)
         this.pickerOpen = false
       },
       insertLink() {
-        var url = prompt('Enter the URL: ', 'URL');
+        var url = prompt('Enter the URL: ');
         document.execCommand("CreateLink", false, url);
       },
       wrap(start, end) {
@@ -84,15 +88,21 @@
         document.execCommand("insertHtml", false, replacement)
       },
       update () {
-        let text = this.$refs.editor.innerHTML.replaceAll('<div>','\n\r')
-        text= text.replaceAll('<br>','')
-        text= text.replaceAll('</div>','')
-        this.output = this.$refs.editor.innerHTML
+        let text = this.$refs.editor.innerHTML
+        // clean up
+        text = text.replaceAll('<br>','\n\r')
+        text = text.replace('<div>','')
+        text = text.replace('</div>','')
+        text = text.replaceAll('&lt;', '<')
+        text = text.replaceAll('&gt;', '>')
+        text = text.replaceAll('&amp;', '&')
+
         this.$emit('update', text)
       }
     },
     mounted(){
-      this.html = this.text.replaceAll('\n\r','<br>')
+      this.$emit('update', this.text)
+      this.html = this.text.replaceAll('\n\r','<br>') + '<br>'
     }
   }
 
@@ -106,8 +116,8 @@
   #editor {
     border: 1px solid grey;
     border-radius: 4px;
-    display: block;
-    /*white-space: pre;*/
+    display: inline-block;
+    width: 100%;
     white-space: pre-wrap;
     white-space: -moz-pre-wrap;
     white-space: -pre-wrap;

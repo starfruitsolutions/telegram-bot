@@ -112,7 +112,8 @@
     methods: {
       async submit () {
         this.loading = true
-        this.form.template = this.editorText
+        this.form.template = this.editorText.trim() //trim whitespace
+        console.log(this.form.template)
         if (this.command.id) {
           await this.update()
         }
