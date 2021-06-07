@@ -16,6 +16,7 @@ export const createBot = /* GraphQL */ `
         items {
           id
           name
+          description
           arguments
           template
           createdAt
@@ -41,6 +42,7 @@ export const updateBot = /* GraphQL */ `
         items {
           id
           name
+          description
           arguments
           template
           createdAt
@@ -66,6 +68,7 @@ export const deleteBot = /* GraphQL */ `
         items {
           id
           name
+          description
           arguments
           template
           createdAt
@@ -84,6 +87,7 @@ export const createCommand = /* GraphQL */ `
     createCommand(input: $input, condition: $condition) {
       id
       name
+      description
       arguments
       template
       createdAt
@@ -121,6 +125,7 @@ export const updateCommand = /* GraphQL */ `
     updateCommand(input: $input, condition: $condition) {
       id
       name
+      description
       arguments
       template
       createdAt
@@ -158,6 +163,7 @@ export const deleteCommand = /* GraphQL */ `
     deleteCommand(input: $input, condition: $condition) {
       id
       name
+      description
       arguments
       template
       createdAt
@@ -203,6 +209,7 @@ export const createSource = /* GraphQL */ `
       command {
         id
         name
+        description
         arguments
         template
         createdAt
@@ -237,6 +244,7 @@ export const updateSource = /* GraphQL */ `
       command {
         id
         name
+        description
         arguments
         template
         createdAt
@@ -271,6 +279,7 @@ export const deleteSource = /* GraphQL */ `
       command {
         id
         name
+        description
         arguments
         template
         createdAt

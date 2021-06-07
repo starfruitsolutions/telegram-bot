@@ -13,6 +13,7 @@ export const getBot = /* GraphQL */ `
         items {
           id
           name
+          description
           arguments
           template
           createdAt
@@ -49,6 +50,7 @@ export const getCommand = /* GraphQL */ `
     getCommand(id: $id) {
       id
       name
+      description
       arguments
       template
       createdAt
@@ -88,6 +90,7 @@ export const listCommands = /* GraphQL */ `
       items {
         id
         name
+        description
         arguments
         template
         createdAt
@@ -120,6 +123,7 @@ export const getSource = /* GraphQL */ `
       command {
         id
         name
+        description
         arguments
         template
         createdAt
@@ -156,6 +160,7 @@ export const listSources = /* GraphQL */ `
         command {
           id
           name
+          description
           arguments
           template
           createdAt

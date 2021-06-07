@@ -21,6 +21,7 @@ type Command
   id: ID!
   bot: Bot @connection(name: "BotCommands")
   name: String!
+  description: String
   arguments: String
   sources: [Source] @connection(name: "CommandSources")
   template: String
