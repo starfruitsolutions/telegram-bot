@@ -43,6 +43,15 @@
         </v-row>
       </v-col>
       <template v-if="form.id">
+        <v-textarea
+          outlined
+          rows="3"
+          auto-grow
+          v-model="form.description"
+          :rules="[validationRules.required]"
+          label="Description"
+          prepend-icon="fa-file-alt"
+        />
         <v-expansion-panels focusable>
           <v-expansion-panel>
             <v-expansion-panel-header>
@@ -150,6 +159,7 @@
             input: {
               commandBotId: this.bot.id,
               name: this.form.name,
+              description: this.form.description,
               template: this.form.template
             }
           }
@@ -164,6 +174,7 @@
             input: {
               id: this.form.id,
               name: this.form.name,
+              description: this.form.description,
               template: this.form.template
             }
           }
