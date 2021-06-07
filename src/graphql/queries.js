@@ -24,6 +24,42 @@ export const getBot = /* GraphQL */ `
     }
   }
 `;
+export const listBotsWithCommands = /* GraphQL */ `
+  query ListBots(
+    $filter: ModelBotFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listBots(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        description
+        createdAt
+        updatedAt
+        commands {
+          items {
+            id
+            name
+            description
+            template
+            sources {
+              items {
+                name
+                method
+                url
+                body
+              }
+              nextToken
+            }
+          }
+          nextToken
+        }
+      }
+      nextToken
+    }
+  }
+`;
 export const listBots = /* GraphQL */ `
   query ListBots(
     $filter: ModelBotFilterInput

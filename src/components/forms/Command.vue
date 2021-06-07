@@ -25,6 +25,21 @@
           >
             Create
           </v-btn>
+          <v-btn
+            v-if="!form.id"
+            width="100"
+            class="ml-10"
+            @click="toggleImporter"
+          >
+            import
+          </v-btn>
+          <importer
+            v-if="importerVisible"
+            :visible="importerVisible"
+            :bot="bot"
+            @cancel="toggleImporter"
+            @ok="toggleImporter"
+          />
         </v-row>
       </v-col>
       <template v-if="form.id">
@@ -73,6 +88,7 @@
   import {onCreateSource, onDeleteSource} from '@/graphql/subscriptions'
   import { createCommand, updateCommand, deleteCommand} from '@/graphql/mutations'
   import { getCommand} from '@/graphql/queries'
+  import importer from '@/components/Importer'
   import sources from '@/components/forms/Sources'
   import documentation from '@/components/forms/Documentation'
   import editor from '@/components/Editor'
@@ -81,7 +97,8 @@
     components: {
       sources,
       documentation,
-      editor
+      editor,
+      importer
     },
     props: {
       bot: {
@@ -106,10 +123,14 @@
         loading: false,
         valid: false,
         advancedVisible: false,
-        docVisible: false
+        docVisible: false,
+        importerVisible: false
       }
     },
     methods: {
+      toggleImporter () {
+        this.importerVisible = !this.importerVisible
+      },
       async submit () {
         this.loading = true
         this.form.template = this.editorText.trim() //trim whitespace
