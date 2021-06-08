@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 
 import { API, graphqlOperation } from 'aws-amplify'
 import { listBots } from '@/graphql/queries'
-import { deleteBot } from '@/graphql/mutations'
+import { createBot, updateBot, deleteBot } from '@/graphql/mutations'
 import {onCreateBot, onDeleteBot} from '@/graphql/subscriptions'
 
 Vue.use(Vuex)
@@ -42,26 +42,40 @@ export default new Vuex.Store({
       })
       commit('setBots', response.data.listBots.items)
     },
-    subscribeBots({ commit }) {
+    subscribeBots({ dispatch }) {
       subscriptions.bots.create = API.graphql(
         graphqlOperation(onCreateBot)
       ).subscribe({
-        next: ({ value }) => {
-          commit('setBots', value.data.onCreateBot)
+        next: () => {
+          dispatch('getBots')
         },
         error: error => console.warn(error)
       })
       subscriptions.bots.delete = API.graphql(
         graphqlOperation(onDeleteBot)
       ).subscribe({
-        next: ({ value }) => {
-          commit('setBots', value.data.onDeleteBot)
+        next: () => {
+          dispatch('getBots')
         },
         error: error => console.warn(error)
       })
     },
     unsubscribeBots() {
       subscriptions.bots.unsubscribe()
+    },
+    async createBot ({ dispatch }, val) {
+      await API.graphql({
+        query: createBot,
+        variables: {input: val}
+      })
+      dispatch('getBots')
+    },
+    async update ({ dispatch }, val) {
+      await API.graphql({
+        query: updateBot,
+        variables: {input: val}
+      })
+      dispatch('getBots')
     },
     async deleteBot({dispatch}, id) {
       let confirmation = confirm('Are you sure you want to delete this?')

@@ -34,8 +34,7 @@
 </template>
 
 <script>
-  import { API } from 'aws-amplify';
-  import { createBot, updateBot } from '@/graphql/mutations';
+  import { mapActions } from 'vuex'
 
   export default {
     props: {
@@ -55,28 +54,19 @@
       }
     },
     methods: {
+      ...mapActions([
+        'createBot',
+        'updateBot'
+      ]),
       async submit () {
         this.loading = true
         if (this.bot) {
-          await this.update()
+          await this.updateBot({...this.form, id: this.bot.id})
         }
         else {
-          await this.create()
+          await this.createBot(this.form)
         }
         this.loading = false
-      },
-      async create () {
-        await API.graphql({
-          query: createBot,
-          variables: {input: this.form}
-        })
-        this.$refs.form.reset()
-      },
-      async update () {
-        await API.graphql({
-          query: updateBot,
-          variables: {input: {...this.form, id: this.bot.id}}
-        })
       }
     },
     mounted() {
