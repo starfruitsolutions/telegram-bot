@@ -33,59 +33,38 @@
 </template>
 
 <script>
-  import { API, graphqlOperation } from 'aws-amplify'
-  import { listBots } from '@/graphql/queries'
-  import { onCreateBot } from '@/graphql/subscriptions'
-  import { deleteBot } from '@/graphql/mutations'
+  import { mapActions, mapGetters } from 'vuex'
   import bot from "@/components/forms/Bot"
 
   export default {
     name: 'Home',
     data () {
       return {
-        bots: [],
-        subscription: null,
         addVisible: false
       }
     },
     components: {
       'bot': bot
     },
+    computed: {
+      ...mapGetters({
+        bots: 'bots'
+      })
+    },
     methods: {
-      async getBots() {
-        const bots = await API.graphql({
-          query: listBots
-        })
-        this.bots = bots.data.listBots.items
-      },
-      async deleteBot (id) {
-        let confirmation = confirm('Are you sure you want to delete this?')
-        if (confirmation) {
-          await API.graphql({
-            query: deleteBot,
-            variables: {
-              input: {id: id}
-            }
-          })
-          this.getBots()
-        }
-      },
+      ...mapActions([
+        'getBots',
+        'deleteBot',
+        'subscribeBots'
+      ])
     },
     async created() {
       this.getBots()
-      this.subscription = API.graphql(
-        graphqlOperation(onCreateBot)
-      ).subscribe({
-        next: ({ value }) => {
-          this.bots.push(value.data.onCreateBot)
-        },
-        error: error => console.warn(error)
-      })
+      this.subscribeBots()
     },
     unmounted(){
       this.subscription.unsubscribe()
     }
-
   }
 
 </script>
