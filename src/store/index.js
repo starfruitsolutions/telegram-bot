@@ -5,6 +5,7 @@ import { API, graphqlOperation } from 'aws-amplify'
 import {
   listBots,
   getBot,
+  getCommand
  } from '@/graphql/queries'
 import {
   createBot,
@@ -19,7 +20,10 @@ import {
   onDeleteBot,
   onCreateCommand,
   onUpdateCommand,
-  onDeleteCommand
+  onDeleteCommand,
+  onCreateSource,
+  onUpdateSource,
+  onDeleteSource
 } from '@/graphql/subscriptions'
 
 Vue.use(Vuex)
@@ -34,7 +38,8 @@ export default new Vuex.Store({
   state: {
     user: null,
     bots: [],
-    bot: {}
+    bot: {},
+    command: {}
   },
   getters: {
     user(state) {
@@ -45,6 +50,9 @@ export default new Vuex.Store({
     },
     bot(state) {
       return state.bot
+    },
+    command(state) {
+      return state.command
     }
   },
   mutations: {
@@ -67,6 +75,17 @@ export default new Vuex.Store({
         return 0
       })
       state.bot = val
+    },
+    setCommand(state, val) {
+      if(val.sources){ // sometimes we don't have these yet
+        // sort the sources alphabetically
+        val.sources = val.sources.items.sort((a, b) => {
+          if(a.name < b.name) { return -1 }
+          if(a.name > b.name) { return 1 }
+          return 0
+        })
+      }
+      state.command = val
     }
   },
   actions: {
@@ -99,7 +118,7 @@ export default new Vuex.Store({
         variables: {input: val}
       })
     },
-    async update (_, val) {
+    async updateBot (_, val) {
       await API.graphql({
         query: updateBot,
         variables: {input: val}
@@ -146,6 +165,13 @@ export default new Vuex.Store({
     unsubscribeCommands() {
       subscriptions.commands.unsubscribe()
     },
+    async getCommand({ commit }, id) {
+      let response = await API.graphql({
+        query: getCommand,
+        variables: { id: id }
+      })
+      commit('setCommand', response.data.getCommand)
+    },
     async createCommand(_, val) {
       await API.graphql({
         query: createCommand,
@@ -162,13 +188,36 @@ export default new Vuex.Store({
         }
       })
     },
-    async deleteCommand(_, val) {
-      await API.graphql({
-        query: deleteCommand,
-        variables: {
-          input: val
-        }
+    async deleteCommand(_, id) {
+      let confirmation = confirm('Are you sure you want to delete this?')
+      if (confirmation) {
+        await API.graphql({
+          query: deleteCommand,
+          variables: {
+            input: {id: id}
+          }
+        })
+      }
+    },
+    subscribeSources({ state, dispatch }) {
+      subscriptions.sources.create = API.graphql(
+        graphqlOperation(onCreateSource)
+      ).subscribe({
+        next: () => dispatch('getCommand', state.command.id),
+        error: error => console.warn(error)
       })
-    }
+      subscriptions.sources.update = API.graphql(
+        graphqlOperation(onUpdateSource)
+      ).subscribe({
+        next: () => dispatch('getCommand', state.command.id),
+        error: error => console.warn(error)
+      })
+      subscriptions.sources.delete = API.graphql(
+        graphqlOperation(onDeleteSource)
+      ).subscribe({
+        next: () => dispatch('getCommand', state.command.id),
+        error: error => console.warn(error)
+      })
+    },
   }
 })

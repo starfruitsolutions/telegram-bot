@@ -5,17 +5,17 @@
     <h4 class="mb-5">ID: {{ bot.id }}</h4>
     <bot :bot="bot" class="mb-15"/>
     <h1>Commands</h1>
-    <command :bot="bot" class="pa-5"/>
+    <create-command class="pa-5"/>
     <v-expansion-panels accordion focusable>
       <v-expansion-panel
         v-for="command in bot.commands"
         :key="command.id"
       >
-        <v-expansion-panel-header>
+        <v-expansion-panel-header @click="setCommand(command)">
           <h3>{{ command.name }}</h3>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
-          <command :command="command"/>
+          <command/>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -24,16 +24,18 @@
 </template>
 
 <script>
-  import { mapActions, mapGetters } from 'vuex'
+  import { mapActions, mapGetters, mapMutations } from 'vuex'
 
-  import bot from "@/components/forms/Bot"
-  import command from "@/components/forms/Command"
+  import Bot from "@/components/forms/Bot"
+  import Command from "@/components/forms/Command"
+  import CreateCommand from "@/components/forms/CreateCommand"
 
   export default {
     name: 'Home',
     components: {
-      'bot': bot,
-      'command': command
+      Bot,
+      Command,
+      CreateCommand
     },
     computed: {
       ...mapGetters({
@@ -45,6 +47,9 @@
         'getBot',
         'subscribeCommands',
         'unsubscribeCommands'
+      ]),
+      ...mapMutations([
+        'setCommand'
       ])
     },
     created() {

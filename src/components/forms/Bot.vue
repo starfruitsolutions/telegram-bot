@@ -45,6 +45,7 @@
     },
     data () {
       return {
+        form: {},
         loading: false,
         valid: false
       }
@@ -57,7 +58,11 @@
       async submit () {
         this.loading = true
         if (this.bot) {
-          await this.updateBot({...this.form, id: this.bot.id})
+          await this.updateBot({
+            id: this.bot.id,
+            name: this.bot.name,
+            description: this.bot.description
+          })
         }
         else {
           await this.createBot(this.form)
