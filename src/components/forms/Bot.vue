@@ -6,7 +6,7 @@
       @submit.prevent="submit"
     >
       <v-text-field
-        v-model="form.name"
+        v-model="bot.name"
         :rules="[validationRules.required]"
         label="Name"
         prepend-icon="fa-robot"
@@ -15,7 +15,7 @@
         outlined
         rows="3"
         auto-grow
-        v-model="form.description"
+        v-model="bot.description"
         :rules="[validationRules.required]"
         label="Description"
         prepend-icon="fa-file-alt"
@@ -45,10 +45,6 @@
     },
     data () {
       return {
-        form: {
-          name: null,
-          description: null
-        },
         loading: false,
         valid: false
       }

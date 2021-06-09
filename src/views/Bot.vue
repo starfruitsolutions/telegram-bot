@@ -8,7 +8,7 @@
     <command :bot="bot" class="pa-5"/>
     <v-expansion-panels accordion focusable>
       <v-expansion-panel
-        v-for="command in bot.commands.items"
+        v-for="command in bot.commands"
         :key="command.id"
       >
         <v-expansion-panel-header>
@@ -24,73 +24,35 @@
 </template>
 
 <script>
-  import { API, graphqlOperation } from 'aws-amplify'
-  import {onCreateCommand, onUpdateCommand, onDeleteCommand} from '@/graphql/subscriptions'
-  import { getBot } from '@/graphql/queries'
+  import { mapActions, mapGetters } from 'vuex'
 
   import bot from "@/components/forms/Bot"
   import command from "@/components/forms/Command"
 
   export default {
     name: 'Home',
-    data () {
-      return {
-        bot: null,
-        commands: []
-      }
-    },
     components: {
       'bot': bot,
-      'command': command,
-
+      'command': command
+    },
+    computed: {
+      ...mapGetters({
+        bot: 'bot'
+      })
     },
     methods: {
-      async getBot() {
-        const bot = await API.graphql({
-          query: getBot,
-          variables: { id: this.$route.params.id }
-        })
-
-        // sort the Commands alphabetically
-        bot.data.getBot.commands.items.sort((a, b) => {
-          if(a.name < b.name) { return -1 }
-          if(a.name > b.name) { return 1 }
-          return 0
-        })
-
-        // assign it
-        this.bot = bot.data.getBot
-
-      },
+      ...mapActions([
+        'getBot',
+        'subscribeCommands',
+        'unsubscribeCommands'
+      ])
     },
-    async created() {
-      this.getBot()
-
-      this.createCommandSubscription = API.graphql(
-        graphqlOperation(onCreateCommand)
-      ).subscribe({
-        next: () => this.getBot(),
-        error: error => console.warn(error)
-      })
-
-      this.updateCommandSubscription = API.graphql(
-        graphqlOperation(onUpdateCommand)
-      ).subscribe({
-        next: () => this.getBot(),
-        error: error => console.warn(error)
-      })
-
-      this.deleteCommandSubscription = API.graphql(
-        graphqlOperation(onDeleteCommand)
-      ).subscribe({
-        next: () => this.getBot(),
-        error: error => console.warn(error)
-      })
+    created() {
+      this.getBot(this.$route.params.id)
+      this.subscribeCommands()
     },
     unmounted(){
-      this.createCommandSubscription.unsubscribe()
-      this.updateCommandSubscription.unsubscribe()
-      this.deleteCommandSubscription.unsubscribe()
+      this.unsubscribeCommands()
     }
   }
 
