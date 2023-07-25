@@ -1,5 +1,4 @@
-# Euler Chat Bot
-Euler Tools
+# Telegram Chat Bot
 :doctype: article
 :toc: right
 :copyright: © 2021
@@ -105,46 +104,3 @@ amplify publish
 ```
 amplify [create|update|remove] [resource type]
 ```
-
-## Jira integration
-
-To help with connecting branches and pull pull requests in Jira, the following
-
-..git/COMMIT_TEMPLATE
-[source, text]
-----
-Short Description
-
-Long description here.
-
-# ------------------------ >8 ------------------------
-# Do not modify or remove the line above.
-# Everything below it will be ignored.
-
-# An example of JIRA integration via this comment message can be:
-
-BOTS-1     #time 2h 15m     #done
-
-It follows the following pattern.
-
-<ISSUE_KEY> #<COMMAND_1> <optional COMMAND_1_ARGUMENTS> #<COMMAND_2> <optional COMMAND_2_ARGUMENTS> ... #<COMMAND_n> <optional COMMAND_n_ARGUMENTS>
-
-See https://support.atlassian.com/bitbucket-cloud/docs/use-smart-commits/ for
-additional details.
-----
-
-Configure the project with the following command at the terminal:
-
-`git config commit.template ./.git/COMMIT_TEMPLATE`
-
-Once that is done, for each branch that you create that is tied to a Jira
-ticket, you would have the following pattern:
-
-`git checkout -b BOT-3_description_here_if_you_want`
-
-# Copyrights and Licenses
-
-This document is {copyright} {author}.
-
-Portions of this software is copyright and licensed as found in various LICENSE
-files.
